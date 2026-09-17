@@ -1,0 +1,32 @@
+# Song audio, stems and analysis workspaces never leave this machine (ADR-008)
+workspaces/
+*.mp3
+*.wav
+*.flac
+*.m4a
+!fixtures/**/*.wav
+
+# Model weights are downloaded on first use, never committed
+models/
+*.ckpt
+*.pth
+*.safetensors
+*.onnx
+
+# Secrets and local config
+.env
+.env.*
+musician.config.local.yaml
+
+# Toolchains
+node_modules/
+.venv/
+workers/*/.venv/
+plugins/*/worker/.venv/
+__pycache__/
+dist/
+ui/dist/
+.pnpm-store/
+
+# Worker scratch output
+plugins/*/worker/out/
