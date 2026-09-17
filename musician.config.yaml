@@ -1,0 +1,35 @@
+# The running shape of the app. Edit this file while it is running: the loader
+# reconciles, and only the plugins whose entries changed are remounted.
+#
+# Each key is a plugin name, resolved to kernel/src/<name>/index.ts or
+# plugins/<name>/index.ts. Reserved keys: `enabled` (false keeps the entry
+# without mounting it) and `entry` (an explicit module path). Everything else is
+# the plugin's own config.
+
+plugins:
+  analysis-store:
+    root: workspaces
+
+  worker-supervisor:
+    # auto | blue-green | stop-start (ADR-002). auto picks blue-green when there
+    # is memory for two copies of the worker, stop-start otherwise.
+    swap: auto
+    # How long a worker is kept warm while its plugin is being remounted.
+    graceMs: 15000
+
+  ingest: {}
+
+  # One separator at a time; they both provide the `separator` service. Swap
+  # them here or from the header of the web page, which edits this same file.
+  separator-htdemucs:
+    device: auto
+    profile: auto
+
+  ui:
+    port: 5883
+
+  # The Phase 0 demo worker. Enable it to play with hot swap on something that
+  # starts in a tenth of a second: `node scripts/demo-hot-swap.ts`.
+  echo:
+    enabled: false
+    version: 1

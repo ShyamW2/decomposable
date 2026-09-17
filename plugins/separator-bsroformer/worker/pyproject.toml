@@ -1,0 +1,19 @@
+[project]
+name = "musician-worker-separator-bsroformer"
+version = "0.1.0"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+  "musician-worker",
+  "audio-separator>=0.47",
+  # audio-separator imports onnxruntime at module load even for the PyTorch
+  # Roformer models. The CPU build is the one that exists on every target
+  # including Apple Silicon; Roformer gets its GPU from torch, not from ONNX.
+  "onnxruntime>=1.18",
+  "audioread>=3.0",
+  "torch>=2.4",
+  "torchaudio>=2.4",
+  "soundfile>=0.12",
+]
+
+[tool.uv.sources]
+musician-worker = { path = "../../../workers/shim", editable = true }

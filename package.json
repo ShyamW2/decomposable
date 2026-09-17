@@ -1,0 +1,40 @@
+{
+  "name": "musician",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "license": "MIT",
+  "imports": {
+    "#kernel/*": "./kernel/src/*",
+    "#conformance": "./kernel/conformance/index.ts",
+    "#conformance/*": "./kernel/conformance/*"
+  },
+  "scripts": {
+    "start": "node kernel/src/main.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "build:ui": "pnpm --filter @musician/ui build",
+    "dev:ui": "pnpm --filter @musician/ui dev",
+    "test:slow": "MUSICIAN_SLOW_TESTS=1 vitest run"
+  },
+  "dependencies": {
+    "cordis": "4.0.0-rc.10",
+    "yaml": "^2.8.1",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4",
+    "@types/ws": "^8.5.13"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

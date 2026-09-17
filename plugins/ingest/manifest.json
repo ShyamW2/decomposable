@@ -1,0 +1,8 @@
+{
+  "name": "ingest",
+  "version": "1.0.0",
+  "kind": "ts",
+  "description": "Decodes a song to a canonical wav inside its workspace and opens the analysis document for it.",
+  "inject": ["analysis-store"],
+  "provides": ["ingest"]
+}

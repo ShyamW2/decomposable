@@ -9,32 +9,34 @@ milestone names the model tier that should do the bulk of the work.
 Goal: a running Cordis app with two trivial plugins, a config file, and a
 demonstration that editing the config swaps a plugin with no restart and no leak.
 
-- [ ] pnpm workspace, Node 24, TypeScript strict, vitest. **Sonnet**
-- [ ] `kernel/`: bootstrap, loader over `musician.config.yaml`, `analysis-store`
+- [x] pnpm workspace, Node 24, TypeScript strict, vitest. **Sonnet**
+- [x] `kernel/`: bootstrap, loader over `musician.config.yaml`, `analysis-store`
       (SQLite, event log + per-layer views). **Opus** for the store's
       event/provenance model, **Sonnet** for the rest. No job queue (ADR-007).
-- [ ] Conformance suite v0: mount/unmount ×3 leak check, provenance check,
+- [x] Conformance suite v0: mount/unmount ×3 leak check, provenance check,
       inject enforcement. **Opus**
-- [ ] `worker-supervisor` + Python RPC shim in `workers/`, with an echo worker
+- [x] `worker-supervisor` + Python RPC shim in `workers/`, with an echo worker
       as the first py-worker plugin. Device detection (cpu/cuda/mps) with per-worker
       CPU fallback, and both swap policies, blue-green and stop-start. **Opus**
 - [ ] Run the Phase 0 suite on a Mac once (O-9) so the mps path is real before
-      any model worker is written.
-- [ ] Exit criterion: a recorded demo of swapping `echo@1` for `echo@2` while a
+      any model worker is written. **Still open: no Mac available to this session.**
+- [x] Exit criterion: a recorded demo of swapping `echo@1` for `echo@2` while a
       call is in flight; the call completes on the new worker. Run it once with
       blue-green and once with stop-start forced in config.
+      `node scripts/demo-hot-swap.ts blue-green|stop-start`, and the same thing
+      asserted in `kernel/src/hot-swap.test.ts`.
 
 ## Phase 1 — Hear and split
 
-- [ ] `ingest` plugin (ffmpeg decode, song workspace). **Sonnet**
-- [ ] `separator-htdemucs` py-worker, `lite` = htdemucs, `full` = htdemucs_ft,
+- [x] `ingest` plugin (ffmpeg decode, song workspace). **Sonnet**
+- [x] `separator-htdemucs` py-worker, `lite` = htdemucs, `full` = htdemucs_ft,
       device auto. Must pass conformance on CPU and be verified on a Mac with `mps`.
-      **Sonnet** from a brief.
-- [ ] `ui` plugin serving a minimal browser app: upload, waveform, per-stem
+      **Sonnet** from a brief. *CPU and CUDA verified; `mps` still pending O-9.*
+- [x] `ui` plugin serving a minimal browser app: upload, waveform, per-stem
       mute/solo playback. **Sonnet**
-- [ ] `separator-bsroformer` as a second implementation; swap between them from
+- [x] `separator-bsroformer` as a second implementation; swap between them from
       the UI. **Sonnet**
-- [ ] Exit criterion: drop in an MP3, get four stems, listen to each, swap the
+- [x] Exit criterion: drop in an MP3, get four stems, listen to each, swap the
       separator without restarting.
 
 ## Phase 2 — Harmony engine on MIDI (no transcription risk yet)
@@ -93,3 +95,39 @@ desktop shell (Tauri/Electron), remote workers over ssh, a browser-only lite mod
 ## Log
 
 - 2026-09-18: first draft.
+- 2026-09-18: Phases 0 and 1 implemented. Notes for whoever picks up Phase 2,
+  and things the design docs should probably absorb:
+
+  - **Cordis v4 has no optional injection.** Everything in `inject` is required,
+    and a plugin is suspended the moment any of them goes away. The `ui` plugin
+    therefore does *not* inject `separator`; it holds it in a child fiber via
+    `ctx.inject`, so the web server survives a separator swap. Any plugin that
+    should outlive one of its dependencies needs the same shape.
+  - **Two plugins cannot provide one service at the same time** — Cordis refuses
+    the second `provide`. So a reload is always dispose-then-mount, and
+    blue-green lives at the *process* level in the supervisor rather than at the
+    plugin level. `03-architecture.md`'s "start new, wait for hello, then dispose
+    old" is right about processes and not about plugins.
+  - **`ctx.effect` returns a disposer, not the value.** The snippet in
+    `03-architecture.md` (`const worker = ctx.effect(() => supervisor.spawn(...))`)
+    does not typecheck against Cordis v4; the real shape is `const worker =
+    supervisor.acquire(...)` followed by `ctx.effect(() => () => worker.release())`.
+  - **Workers are spawned as `<venv>/bin/python`, after `uv sync`**, not via
+    `uv run`: `uv run` makes Python a child of itself, so the supervisor would be
+    measuring and killing a wrapper. This was found by a memory-limit test that
+    never fired.
+  - **A worker call survives its process.** Calls are made against a slot, and a
+    job in flight when the process is replaced is re-dispatched to the
+    replacement. That is what the Phase 0 exit criterion actually requires, and
+    it means worker jobs must be re-runnable.
+  - **Two separators disagree about what a stem is.** Demucs gives four stems,
+    RoFormer gives vocals and instrumental. The `Separator` contract returns
+    named stems and promises nothing about which; Phase 3 must read the names.
+  - **RoFormer on a CPU is about 13× real time**, against Demucs's 0.7×, and takes
+    80 s just to read its checkpoint. Its contract test is behind
+    `pnpm test:slow`. Demucs stays the default in `musician.config.yaml`.
+  - **Cordis 4.0.0-rc.10 ships extensionless relative imports in its `.d.ts`**,
+    which `moduleResolution: nodenext` refuses; the repo typechecks with bundler
+    resolution. Node runs the TypeScript directly, so there is no build step
+    outside the browser app.
+  - O-9 is now blocking two "verified on a Mac" boxes rather than one.

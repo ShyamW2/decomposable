@@ -1,0 +1,17 @@
+{
+  "name": "separator-htdemucs",
+  "version": "1.0.0",
+  "kind": "py-worker",
+  "description": "Stem separation with Hybrid Transformer Demucs. lite = htdemucs, full = htdemucs_ft.",
+  "inject": ["worker-supervisor", "analysis-store", "ingest"],
+  "provides": ["separator"],
+  "worker": {
+    "dir": "plugins/separator-htdemucs/worker",
+    "devices": ["cpu", "cuda", "mps"],
+    "warmupBudget": 300,
+    "models": {
+      "lite": { "id": "htdemucs", "peakMemoryMiB": 2600 },
+      "full": { "id": "htdemucs_ft", "peakMemoryMiB": 4200 }
+    }
+  }
+}

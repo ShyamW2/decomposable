@@ -1,0 +1,17 @@
+{
+  "name": "separator-bsroformer",
+  "version": "1.0.0",
+  "kind": "py-worker",
+  "description": "Stem separation with Band-Split / Mel-Band RoFormer, via audio-separator. Two stems: vocals and instrumental.",
+  "inject": ["worker-supervisor", "analysis-store", "ingest"],
+  "provides": ["separator"],
+  "worker": {
+    "dir": "plugins/separator-bsroformer/worker",
+    "devices": ["cpu", "cuda", "mps"],
+    "warmupBudget": 600,
+    "models": {
+      "lite": { "id": "mel-roformer-1143", "peakMemoryMiB": 3200 },
+      "full": { "id": "bs-roformer-1297", "peakMemoryMiB": 5200 }
+    }
+  }
+}

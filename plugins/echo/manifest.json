@@ -1,0 +1,17 @@
+{
+  "name": "echo",
+  "version": "1.0.0",
+  "kind": "py-worker",
+  "description": "The smallest possible Python worker. Exists so that hot swap, device detection and the conformance suite can be exercised without a model.",
+  "inject": ["worker-supervisor"],
+  "provides": ["echo"],
+  "worker": {
+    "dir": "plugins/echo/worker",
+    "devices": ["cpu", "cuda", "mps"],
+    "warmupBudget": 60,
+    "models": {
+      "lite": { "id": "echo-small", "peakMemoryMiB": 64 },
+      "full": { "id": "echo-large", "peakMemoryMiB": 128 }
+    }
+  }
+}
