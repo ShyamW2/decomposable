@@ -41,7 +41,7 @@ spawned inside `ctx.effect` by the owning Cordis plugin. Each worker declares in
 manifest the devices it supports (`cpu`, `cuda`, `mps`), a `lite` and a `full`
 model choice, and an estimated peak memory for each. The `worker-supervisor`
 detects hardware at start, picks a device and model per worker (`auto`), and lets
-`musician.config.yaml` override both. Replacement policy is also automatic:
+`decomposable.config.yaml` override both. Replacement policy is also automatic:
 `blue-green` (start new, warm, then dispose old) when free memory allows it,
 otherwise `stop-start` (dispose old, then start new). Cordis service suspension
 covers the gap in the second case.
@@ -152,7 +152,13 @@ not want yet.
 
 ## Owner answers (2026-09-18)
 
-- **O-1** Project name: none yet; "Musician" stays a placeholder.
+- **O-1** Project name: **Decomposable** (2026-09-18). Decomposition is what
+  source separation does to a record and what Cordis does to an application, and
+  the word contains "composable" and very nearly "composer". Applied throughout:
+  the config file is `decomposable.config.yaml`, the Python shim package is
+  `decomposable_worker`, the browser app is `@decomposable/ui`, and worker
+  environment variables are `DECOMPOSABLE_*`. The repository directory itself is
+  still `musician/`; nothing in the code depends on it.
 - **O-2** UI framework: Svelte.
 - **O-3** Agent bridge: both Claude Code and Codex behind one interface; DeepSeek
   Harness possibly later.

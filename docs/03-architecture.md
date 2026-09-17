@@ -50,7 +50,7 @@ resumes when a provider returns. This is the "zero downtime" story: unload
 `separator@htdemucs`, load `separator@bsroformer`; anything depending on the
 `separator` service pauses for the seconds in between and resumes.
 
-The loader reads a declarative `musician.config.yaml` listing plugins and their
+The loader reads a declarative `decomposable.config.yaml` listing plugins and their
 config. Editing that file (or the UI doing so) triggers reconciliation: only
 plugins whose entries changed are unmounted or remounted.
 
@@ -156,7 +156,7 @@ the brief format; the agent-bridge plugin fills that template automatically.
    the worktree.
 3. The agent's result is built and the conformance suite runs in the worktree.
 4. On green, the bridge shows the diff and the test report; on user approval it
-   copies the plugin into `plugins/` and edits `musician.config.yaml`. The loader
+   copies the plugin into `plugins/` and edits `decomposable.config.yaml`. The loader
    mounts it. On red, the report is shown and the worktree kept for iteration.
 
 Security boundary: an agent-written plugin never gets a service it did not
@@ -186,7 +186,7 @@ events]`. The UI shows them beside the record's voicing at the same song time.
 ## Repository layout (proposed)
 
 ```
-musician/
+decomposable/
   CLAUDE.md
   docs/
   kernel/            bootstrap, loader config, worker-supervisor, analysis-store, conformance suite
@@ -195,7 +195,7 @@ musician/
   workers/           shared Python RPC shim used by every py-worker
   ui/                browser app (Svelte or React, ADR-005), served by the ui plugin
   fixtures/          audio clips, MIDI, and hand-labelled harmony cases
-  musician.config.yaml
+  decomposable.config.yaml
 ```
 
 ## Things deliberately left out for now (ADR-007)

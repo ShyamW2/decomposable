@@ -135,7 +135,7 @@
 />
 
 <header>
-  <h1>Musician</h1>
+  <h1>Decomposable</h1>
   <div class="spacer"></div>
   <div class="separator-box">
     {#if separator?.implementation}

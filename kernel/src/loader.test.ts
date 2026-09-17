@@ -13,11 +13,11 @@ describe('loader', () => {
 
   // A throwaway directory per test: nothing here may write into the working tree.
   beforeEach(() => {
-    dir = mkdtempSync(join(tmpdir(), 'musician-loader-'))
+    dir = mkdtempSync(join(tmpdir(), 'decomposable-loader-'))
   })
 
   const write = (yaml: string): string => {
-    const path = join(dir, 'musician.config.yaml')
+    const path = join(dir, 'decomposable.config.yaml')
     writeFileSync(path, yaml)
     return path
   }
@@ -48,7 +48,7 @@ describe('loader', () => {
   })
 
   it('passes config through to the plugin, minus the loader keys', async () => {
-    const root = join(mkdtempSync(join(tmpdir(), 'musician-ws-')), 'workspaces')
+    const root = join(mkdtempSync(join(tmpdir(), 'decomposable-ws-')), 'workspaces')
     const configPath = write(`plugins:\n  analysis-store:\n    root: ${root}\n`)
     app = await start({ root: ROOT, configPath })
     expect(app.ctx.get('analysis-store')!.root).toBe(root)

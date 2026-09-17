@@ -19,7 +19,7 @@ contractSuite({
 describe('ingest', () => {
   it('decodes an mp3 to a canonical 44.1 kHz stereo mix in the workspace', async () => {
     const harness = await createHarness(import.meta.dirname)
-    const dir = mkdtempSync(join(tmpdir(), 'musician-ingest-'))
+    const dir = mkdtempSync(join(tmpdir(), 'decomposable-ingest-'))
     try {
       // The fixture is a wav we synthesised; the mp3 is made here so that no
       // encoded audio is ever committed (ADR-008).

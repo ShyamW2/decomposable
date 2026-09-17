@@ -7,7 +7,7 @@ which carries the UVR model list and fetches the checkpoints.
 It exists as the **second implementation** of the `separator` contract in
 [`kernel/src/services.ts`](../../kernel/src/services.ts). Swapping it for
 `separator-htdemucs` while the app is running — from the menu in the page header
-or by editing `musician.config.yaml` — is the Phase 1 exit criterion.
+or by editing `decomposable.config.yaml` — is the Phase 1 exit criterion.
 
 ## It does not produce the same stems as Demucs
 
@@ -41,7 +41,7 @@ use. Never committed.
   (8 s when it is still in the page cache) and 120 s to separate nine seconds of
   audio — roughly 13× real time, against Demucs's 0.7× on the same machine. On
   the 4-core baseline this is a "start it and go and make tea" operation, which
-  is why Demucs is the default in `musician.config.yaml`.
+  is why Demucs is the default in `decomposable.config.yaml`.
 - **No progress fraction.** `audio-separator` exposes no progress callback, so
   this worker reports stages (`separating`, `writing stems`) and the progress bar
   in the UI sits at 5% for the duration. Demucs reports a real fraction. Fixing
@@ -59,7 +59,7 @@ use. Never committed.
 The contract test is opt-in because of the runtime above:
 
 ```sh
-pnpm test:slow      # or MUSICIAN_SLOW_TESTS=1 pnpm vitest run plugins/separator-bsroformer
+pnpm test:slow      # or DECOMPOSABLE_SLOW_TESTS=1 pnpm vitest run plugins/separator-bsroformer
 ```
 
 ## Licence

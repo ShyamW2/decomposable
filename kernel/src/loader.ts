@@ -3,7 +3,7 @@ import { basename, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import type { Context } from 'cordis'
 import type { Fiber } from 'cordis'
-import { readConfig, splitEntry, type MusicianConfig } from './config.ts'
+import { readConfig, splitEntry, type DecomposableConfig } from './config.ts'
 import './contracts.ts'
 
 interface Mounted {
@@ -16,14 +16,14 @@ interface Mounted {
 export interface LoaderOptions {
   /** Repository root. */
   root: string
-  /** Path of musician.config.yaml. */
+  /** Path of decomposable.config.yaml. */
   configPath: string
   /** Re-reconcile when the config file changes. */
   watch?: boolean
 }
 
 /**
- * Mounts the plugins named in `musician.config.yaml` and keeps the running tree
+ * Mounts the plugins named in `decomposable.config.yaml` and keeps the running tree
  * matching that file.
  *
  * Reconciliation touches only what changed: a plugin whose entry is untouched is
@@ -52,13 +52,13 @@ export class Loader {
   }
 
   /** Reads the config file and makes the running tree match it. */
-  reconcile(config?: MusicianConfig): Promise<void> {
+  reconcile(config?: DecomposableConfig): Promise<void> {
     // Serialise: two overlapping reconciles would fight over the same slots.
     this.reconciling = this.reconciling.then(() => this.doReconcile(config))
     return this.reconciling
   }
 
-  private async doReconcile(given?: MusicianConfig): Promise<void> {
+  private async doReconcile(given?: DecomposableConfig): Promise<void> {
     const logger = this.ctx.logger('loader')
     const config = given ?? readConfig(this.options.configPath)
     const desired = new Map<string, { config: Record<string, unknown>; entry: string; source: string }>()

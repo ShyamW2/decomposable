@@ -1,4 +1,4 @@
-# Musician
+# Decomposable
 
 A self-extending music analysis workbench. It takes a song, splits it into
 stems, transcribes each stem, and explains the harmony at the level a working
@@ -64,7 +64,7 @@ the separator is switched to RoFormer from the UI and the song is separated
 again — while the page is polled five times a second to show the web server
 never goes down with it. Or do it by hand: with the app running, pick the other
 separator from the menu in the page header, or change the name in
-`musician.config.yaml`.
+`decomposable.config.yaml`.
 
 ## Layout
 

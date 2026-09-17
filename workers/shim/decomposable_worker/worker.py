@@ -132,7 +132,7 @@ def serve(worker: Worker) -> None:
                 with lock:
                     cancels.pop(call_id, None)
 
-    thread = threading.Thread(target=work, name="musician-worker-jobs", daemon=True)
+    thread = threading.Thread(target=work, name="decomposable-worker-jobs", daemon=True)
     thread.start()
 
     for line in sys.stdin:
@@ -152,9 +152,9 @@ def serve(worker: Worker) -> None:
         if method == "hello":
             try:
                 worker.load(
-                    params.get("device", os.environ.get("MUSICIAN_DEVICE", "cpu")),
-                    params.get("model", os.environ.get("MUSICIAN_MODEL", "")),
-                    params.get("profile", os.environ.get("MUSICIAN_PROFILE", "lite")),
+                    params.get("device", os.environ.get("DECOMPOSABLE_DEVICE", "cpu")),
+                    params.get("model", os.environ.get("DECOMPOSABLE_MODEL", "")),
+                    params.get("profile", os.environ.get("DECOMPOSABLE_PROFILE", "lite")),
                     params.get("config"),
                 )
             except Exception as error:

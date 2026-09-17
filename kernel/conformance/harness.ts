@@ -42,7 +42,7 @@ export function readManifest(dir: string): PluginManifest {
  */
 export async function createHarness(dir: string): Promise<Harness> {
   const manifest = readManifest(dir)
-  const tmp = mkdtempSync(join(tmpdir(), 'musician-contract-'))
+  const tmp = mkdtempSync(join(tmpdir(), 'decomposable-contract-'))
   const ctx = new Context()
   const events: AnalysisEvent[] = []
   ctx.on('analysis/appended', (appended) => events.push(...appended))

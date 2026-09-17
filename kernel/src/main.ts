@@ -12,4 +12,4 @@ const shutdown = async () => {
 process.on('SIGINT', shutdown)
 process.on('SIGTERM', shutdown)
 
-app.ctx.logger('musician').info('up; edit musician.config.yaml to swap a plugin')
+app.ctx.logger('decomposable').info('up; edit decomposable.config.yaml to swap a plugin')

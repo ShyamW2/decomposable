@@ -1,9 +1,9 @@
 [project]
-name = "musician-worker-separator-bsroformer"
+name = "decomposable-worker-separator-bsroformer"
 version = "0.1.0"
 requires-python = ">=3.11,<3.13"
 dependencies = [
-  "musician-worker",
+  "decomposable-worker",
   "audio-separator>=0.47",
   # audio-separator imports onnxruntime at module load even for the PyTorch
   # Roformer models. The CPU build is the one that exists on every target
@@ -16,4 +16,4 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-musician-worker = { path = "../../../workers/shim", editable = true }
+decomposable-worker = { path = "../../../workers/shim", editable = true }

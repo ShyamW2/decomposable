@@ -23,7 +23,7 @@ export interface App {
  */
 export async function start(options: AppOptions = {}): Promise<App> {
   const root = resolve(options.root ?? process.cwd())
-  const configPath = resolve(options.configPath ?? join(root, 'musician.config.yaml'))
+  const configPath = resolve(options.configPath ?? join(root, 'decomposable.config.yaml'))
   const ctx = new Context()
   useConsoleLogging(ctx)
   const loader = new Loader(ctx, { root, configPath, ...(options.watch ? { watch: true } : {}) })

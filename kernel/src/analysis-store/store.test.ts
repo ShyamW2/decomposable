@@ -9,7 +9,7 @@ describe('analysis-store', () => {
   let store: AnalysisStore
 
   beforeEach(() => {
-    root = mkdtempSync(join(tmpdir(), 'musician-store-'))
+    root = mkdtempSync(join(tmpdir(), 'decomposable-store-'))
     store = new AnalysisStore(root)
   })
 

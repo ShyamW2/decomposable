@@ -3,17 +3,17 @@ revision = 3
 requires-python = ">=3.11"
 
 [[package]]
-name = "musician-worker"
+name = "decomposable-worker"
 version = "0.1.0"
 source = { editable = "../../../workers/shim" }
 
 [[package]]
-name = "musician-worker-echo"
+name = "decomposable-worker-echo"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
-    { name = "musician-worker" },
+    { name = "decomposable-worker" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "musician-worker", editable = "../../../workers/shim" }]
+requires-dist = [{ name = "decomposable-worker", editable = "../../../workers/shim" }]

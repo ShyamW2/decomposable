@@ -42,7 +42,7 @@ kernel does not act on it, because Cordis v4 has no optional injection.
 | `GET /api/songs/:id/audio?path=…` | Streams a wav from the workspace, with byte ranges so the browser can seek. |
 | `GET /api/songs/:id/peaks?path=…&buckets=…` | A peak/rms envelope for drawing: a few thousand numbers instead of a few hundred megabytes. |
 | `POST /api/songs/:id/separate?force=…` | Runs the mounted separator; progress goes out over the websocket. |
-| `POST /api/separator` | Rewrites `musician.config.yaml`. The loader is already watching it, so the UI has no special path into the plugin tree. |
+| `POST /api/separator` | Rewrites `decomposable.config.yaml`. The loader is already watching it, so the UI has no special path into the plugin tree. |
 | `WS /ws` | `state`, `progress` and `worker-swapped` messages. |
 
 Paths from the browser are resolved inside the song's workspace and refused if
@@ -62,8 +62,8 @@ by a few milliseconds. Solo beats mute, as on any mixer.
 |-----|---------|---------|
 | `port` | `5883` | |
 | `host` | `127.0.0.1` | Loopback. Changing this exposes an unauthenticated app to the network. |
-| `root` | cwd | Repository root: where `ui/dist` and `musician.config.yaml` are found. |
-| `configPath` | `<root>/musician.config.yaml` | The file the separator selector rewrites. |
+| `root` | cwd | Repository root: where `ui/dist` and `decomposable.config.yaml` are found. |
+| `configPath` | `<root>/decomposable.config.yaml` | The file the separator selector rewrites. |
 
 ## Known failure modes
 

@@ -15,7 +15,7 @@ const CONFIG = { device: 'cpu', profile: 'lite' }
 //   pnpm test:slow
 //
 // It is still the contract, and it still has to pass before this plugin ships.
-const slow = process.env.MUSICIAN_SLOW_TESTS === '1'
+const slow = process.env.DECOMPOSABLE_SLOW_TESTS === '1'
 
 describe.skipIf(!slow)('separator-bsroformer', () => {
   contractSuite({ dir: import.meta.dirname, config: CONFIG })

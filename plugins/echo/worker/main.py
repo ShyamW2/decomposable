@@ -12,7 +12,7 @@ import os
 import time
 from typing import Any
 
-from musician_worker import Job, Progress, Worker, log, serve
+from decomposable_worker import Job, Progress, Worker, log, serve
 
 
 class Echo(Worker):

@@ -16,7 +16,7 @@ import time
 from pathlib import Path
 from typing import Any
 
-from musician_worker import Cancelled, Job, Progress, Worker, log, serve
+from decomposable_worker import Cancelled, Job, Progress, Worker, log, serve
 
 
 class Separator(Worker):

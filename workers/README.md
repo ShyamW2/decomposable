@@ -8,7 +8,7 @@ process boundary is the blast radius (ADR-002).
 ## Writing a worker
 
 ```python
-from musician_worker import Job, Progress, Worker, log, serve
+from decomposable_worker import Job, Progress, Worker, log, serve
 
 class MyWorker(Worker):
     name = "my-worker"
@@ -29,7 +29,7 @@ serve(MyWorker())
 
 ```toml
 [tool.uv.sources]
-musician-worker = { path = "../../../workers/shim", editable = true }
+decomposable-worker = { path = "../../../workers/shim", editable = true }
 ```
 
 ## The protocol

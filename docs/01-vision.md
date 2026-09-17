@@ -2,7 +2,7 @@
 
 ## One paragraph
 
-Musician listens to a recording and explains its harmony the way a good teacher
+Decomposable listens to a recording and explains its harmony the way a good teacher
 sitting next to you would: it separates the instruments, writes down what each one
 plays, names the chords *including the voicing*, shows how the progression is built,
 and, when you play your own MIDI keyboard, tells you how what you played relates to

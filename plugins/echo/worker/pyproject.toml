@@ -1,8 +1,8 @@
 [project]
-name = "musician-worker-echo"
+name = "decomposable-worker-echo"
 version = "0.1.0"
 requires-python = ">=3.11"
-dependencies = ["musician-worker"]
+dependencies = ["decomposable-worker"]
 
 [tool.uv.sources]
-musician-worker = { path = "../../../workers/shim", editable = true }
+decomposable-worker = { path = "../../../workers/shim", editable = true }

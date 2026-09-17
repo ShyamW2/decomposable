@@ -7,7 +7,7 @@ whose input is the `audio` event it came from.
 
 Implements the `separator` contract in [`kernel/src/services.ts`](../../kernel/src/services.ts).
 `separator-bsroformer` implements the same contract; only one is mounted at a
-time, and swapping them is an edit to `musician.config.yaml`.
+time, and swapping them is an edit to `decomposable.config.yaml`.
 
 ## Service
 

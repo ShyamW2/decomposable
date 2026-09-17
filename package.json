@@ -1,5 +1,5 @@
 {
-  "name": "musician",
+  "name": "decomposable",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -17,9 +17,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "build:ui": "pnpm --filter @musician/ui build",
-    "dev:ui": "pnpm --filter @musician/ui dev",
-    "test:slow": "MUSICIAN_SLOW_TESTS=1 vitest run"
+    "build:ui": "pnpm --filter @decomposable/ui build",
+    "dev:ui": "pnpm --filter @decomposable/ui dev",
+    "test:slow": "DECOMPOSABLE_SLOW_TESTS=1 vitest run"
   },
   "dependencies": {
     "cordis": "4.0.0-rc.10",

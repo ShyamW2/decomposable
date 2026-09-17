@@ -2,7 +2,7 @@
  * The Phase 0 exit criterion, with a commentary: swap `echo@1` for `echo@2`
  * while a call is in flight and watch the call finish on the new worker.
  *
- *   node scripts/demo-hot-swap.ts              # policy from musician.config.yaml
+ *   node scripts/demo-hot-swap.ts              # policy from decomposable.config.yaml
  *   node scripts/demo-hot-swap.ts blue-green
  *   node scripts/demo-hot-swap.ts stop-start
  *
@@ -19,8 +19,8 @@ import '#kernel/contracts.ts'
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const policy = (process.argv[2] ?? 'auto') as 'auto' | 'blue-green' | 'stop-start'
 
-const dir = mkdtempSync(join(tmpdir(), 'musician-demo-'))
-const configPath = join(dir, 'musician.config.yaml')
+const dir = mkdtempSync(join(tmpdir(), 'decomposable-demo-'))
+const configPath = join(dir, 'decomposable.config.yaml')
 const write = (version: 1 | 2) =>
   writeFileSync(
     configPath,
@@ -57,7 +57,7 @@ try {
     })
 
   await sleep(500)
-  console.log(`${stamp()}  editing musician.config.yaml: version 1 -> 2`)
+  console.log(`${stamp()}  editing decomposable.config.yaml: version 1 -> 2`)
   write(2)
 
   // The file watcher would catch this on its own; waiting on an explicit

@@ -2,11 +2,11 @@ import { readFileSync } from 'node:fs'
 import { parse } from 'yaml'
 
 /**
- * `musician.config.yaml` is the whole of the app's configuration: which plugins
+ * `decomposable.config.yaml` is the whole of the app's configuration: which plugins
  * are mounted and how they are configured. Editing it is how a capability is
  * swapped, so it is read at every reconcile rather than cached.
  */
-export interface MusicianConfig {
+export interface DecomposableConfig {
   plugins: Record<string, PluginEntry | null | false>
 }
 
@@ -19,7 +19,7 @@ export interface PluginEntry {
   [key: string]: unknown
 }
 
-export function readConfig(path: string): MusicianConfig {
+export function readConfig(path: string): DecomposableConfig {
   const raw = parse(readFileSync(path, 'utf8')) ?? {}
   if (!raw.plugins || typeof raw.plugins !== 'object') {
     throw new Error(`${path}: expected a top-level "plugins" map`)

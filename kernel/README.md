@@ -6,7 +6,7 @@ suite that decides whether a plugin is allowed to exist.
 | Path | What it is |
 |------|------------|
 | `src/app.ts`, `src/main.ts` | Boot: one root context, one loader, whatever the config says. |
-| `src/loader.ts` | Reads `musician.config.yaml` and reconciles the running tree against it. |
+| `src/loader.ts` | Reads `decomposable.config.yaml` and reconciles the running tree against it. |
 | `src/analysis-store/` | The analysis document: append-only events with provenance, one SQLite file per song. |
 | `src/worker-supervisor/` | Python worker processes: device detection, slots, swap policies, runaway limits. |
 | `src/services.ts` | Contracts implemented by more than one plugin (currently `Separator`). |

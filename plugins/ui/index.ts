@@ -20,7 +20,7 @@ export interface Config {
   port?: number
   /** Loopback by default: this is a single-user tool and there is no auth (ADR-008). */
   host?: string
-  /** Repository root, for finding ui/dist and musician.config.yaml. */
+  /** Repository root, for finding ui/dist and decomposable.config.yaml. */
   root?: string
   configPath?: string
 }
@@ -43,7 +43,7 @@ export function apply(ctx: Context, config: Config = {}) {
   const ingest = ctx.ingest
   const logger = ctx.logger('ui')
   const root = resolve(config.root ?? process.cwd())
-  const configPath = resolve(config.configPath ?? join(root, 'musician.config.yaml'))
+  const configPath = resolve(config.configPath ?? join(root, 'decomposable.config.yaml'))
   const port = config.port ?? 5883
   const host = config.host ?? '127.0.0.1'
 
@@ -246,7 +246,7 @@ function availableSeparators(root: string): string[] {
     .sort()
 }
 
-const NOT_BUILT = `<!doctype html><meta charset="utf-8"><title>Musician</title>
+const NOT_BUILT = `<!doctype html><meta charset="utf-8"><title>Decomposable</title>
 <style>body{font:16px/1.6 system-ui,sans-serif;margin:4rem auto;max-width:40rem;color:#e6e6e6;background:#141416}
 code{background:#26262b;padding:.1em .4em;border-radius:4px}</style>
 <h1>The UI has not been built yet</h1>

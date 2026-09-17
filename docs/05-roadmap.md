@@ -10,7 +10,7 @@ Goal: a running Cordis app with two trivial plugins, a config file, and a
 demonstration that editing the config swaps a plugin with no restart and no leak.
 
 - [x] pnpm workspace, Node 24, TypeScript strict, vitest. **Sonnet**
-- [x] `kernel/`: bootstrap, loader over `musician.config.yaml`, `analysis-store`
+- [x] `kernel/`: bootstrap, loader over `decomposable.config.yaml`, `analysis-store`
       (SQLite, event log + per-layer views). **Opus** for the store's
       event/provenance model, **Sonnet** for the rest. No job queue (ADR-007).
 - [x] Conformance suite v0: mount/unmount ×3 leak check, provenance check,
@@ -125,7 +125,7 @@ desktop shell (Tauri/Electron), remote workers over ssh, a browser-only lite mod
     named stems and promises nothing about which; Phase 3 must read the names.
   - **RoFormer on a CPU is about 13× real time**, against Demucs's 0.7×, and takes
     80 s just to read its checkpoint. Its contract test is behind
-    `pnpm test:slow`. Demucs stays the default in `musician.config.yaml`.
+    `pnpm test:slow`. Demucs stays the default in `decomposable.config.yaml`.
   - **Cordis 4.0.0-rc.10 ships extensionless relative imports in its `.d.ts`**,
     which `moduleResolution: nodenext` refuses; the repo typechecks with bundler
     resolution. Node runs the TypeScript directly, so there is no build step

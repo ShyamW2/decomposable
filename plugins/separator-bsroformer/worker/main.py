@@ -19,7 +19,7 @@ import time
 from pathlib import Path
 from typing import Any
 
-from musician_worker import Job, Progress, Worker, log, serve
+from decomposable_worker import Job, Progress, Worker, log, serve
 
 MODELS = {
     # Mel-Band RoFormer: smaller and faster, the laptop baseline.

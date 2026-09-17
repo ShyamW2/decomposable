@@ -107,7 +107,7 @@ export function createHttpServer(handler: Handler): Server {
 }
 
 /**
- * Rewrites one plugin's entry in `musician.config.yaml`, preserving comments and
+ * Rewrites one plugin's entry in `decomposable.config.yaml`, preserving comments and
  * formatting, and lets the loader's watcher do the rest. The UI changing which
  * separator is mounted is the same act as a person editing the file.
  */

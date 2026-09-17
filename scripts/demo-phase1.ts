@@ -23,8 +23,8 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const PORT = 5900 + Math.floor(Math.random() * 90)
 const BASE = `http://127.0.0.1:${PORT}`
 
-const dir = mkdtempSync(join(tmpdir(), 'musician-phase1-'))
-const configPath = join(dir, 'musician.config.yaml')
+const dir = mkdtempSync(join(tmpdir(), 'decomposable-phase1-'))
+const configPath = join(dir, 'decomposable.config.yaml')
 const say = (message: string) => console.log(`\n── ${message}`)
 const stamp = () => new Date().toISOString().slice(11, 19)
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))

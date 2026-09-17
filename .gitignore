@@ -16,7 +16,7 @@ models/
 # Secrets and local config
 .env
 .env.*
-musician.config.local.yaml
+decomposable.config.local.yaml
 
 # Toolchains
 node_modules/

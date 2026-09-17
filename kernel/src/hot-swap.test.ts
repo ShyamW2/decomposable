@@ -15,7 +15,7 @@ import './contracts.ts'
 const ROOT = resolve(import.meta.dirname, '..', '..')
 
 function configFor(dir: string, swap: 'blue-green' | 'stop-start', version: 1 | 2): string {
-  const path = join(dir, 'musician.config.yaml')
+  const path = join(dir, 'decomposable.config.yaml')
   writeFileSync(
     path,
     `plugins:
@@ -44,7 +44,7 @@ describe('hot swap', () => {
 
   for (const swap of ['blue-green', 'stop-start'] as const) {
     it(`finishes an in-flight call on the new worker (${swap})`, async () => {
-      dir = mkdtempSync(join(tmpdir(), 'musician-swap-'))
+      dir = mkdtempSync(join(tmpdir(), 'decomposable-swap-'))
       const configPath = configFor(dir, swap, 1)
       app = await start({ root: ROOT, configPath })
 
@@ -73,7 +73,7 @@ describe('hot swap', () => {
   }
 
   it('leaves untouched plugins alone across a reconcile', async () => {
-    dir = mkdtempSync(join(tmpdir(), 'musician-swap-'))
+    dir = mkdtempSync(join(tmpdir(), 'decomposable-swap-'))
     const configPath = configFor(dir, 'blue-green', 1)
     app = await start({ root: ROOT, configPath })
     const first = await app.ctx.get('echo')!.echo('one')
@@ -87,7 +87,7 @@ describe('hot swap', () => {
   })
 
   it('unmounts a plugin removed from the config and kills its worker', async () => {
-    dir = mkdtempSync(join(tmpdir(), 'musician-swap-'))
+    dir = mkdtempSync(join(tmpdir(), 'decomposable-swap-'))
     const configPath = configFor(dir, 'blue-green', 1)
     app = await start({ root: ROOT, configPath })
     const { pid } = await app.ctx.get('echo')!.echo('one')

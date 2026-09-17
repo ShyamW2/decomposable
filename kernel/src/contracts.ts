@@ -15,7 +15,7 @@ declare module 'cordis' {
     /**
      * Whichever separator is mounted. Two plugins implement it (htdemucs and
      * bsroformer) and only one is mounted at a time; swapping them is an edit to
-     * musician.config.yaml.
+     * decomposable.config.yaml.
      */
     separator: Separator
   }

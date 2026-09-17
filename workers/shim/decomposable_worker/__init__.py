@@ -1,4 +1,4 @@
-"""The contract every Musician Python worker implements.
+"""The contract every Decomposable Python worker implements.
 
 One process, one model, newline-delimited JSON on stdout, logs on stderr. There
 is no job framework here on purpose (ADR-007): the kernel makes a call, the call

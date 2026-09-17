@@ -1,6 +1,6 @@
-# Musician — project brief for Claude
+# Decomposable — project brief for Claude
 
-Musician is a self-extending music analysis workbench. It takes a song (MP3), splits it
+Decomposable is a self-extending music analysis workbench. It takes a song (MP3), splits it
 into stems, transcribes each stem to notes, and explains the harmony at the level a
 working musician cares about: not just "Cmaj7" but *which* voicing, *why* it works in
 the progression, and how it compares to what you are playing right now on the MIDI

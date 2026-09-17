@@ -85,9 +85,9 @@ export class WorkerProcess {
       env: {
         ...process.env,
         PYTHONUNBUFFERED: '1',
-        MUSICIAN_DEVICE: o.device,
-        MUSICIAN_MODEL: o.model,
-        MUSICIAN_PROFILE: o.profile,
+        DECOMPOSABLE_DEVICE: o.device,
+        DECOMPOSABLE_MODEL: o.model,
+        DECOMPOSABLE_PROFILE: o.profile,
         ...o.env,
       },
     }) as ChildProcessWithoutNullStreams

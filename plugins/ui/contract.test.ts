@@ -107,9 +107,9 @@ describe('ui server', () => {
 
 describe('config rewriting', () => {
   it('swaps one plugin for another and keeps the comments', () => {
-    const dir = mkdtempSync(join(tmpdir(), 'musician-cfg-'))
+    const dir = mkdtempSync(join(tmpdir(), 'decomposable-cfg-'))
     try {
-      const path = join(dir, 'musician.config.yaml')
+      const path = join(dir, 'decomposable.config.yaml')
       writeFileSync(
         path,
         `# the running shape of the app

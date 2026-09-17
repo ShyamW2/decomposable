@@ -1,4 +1,4 @@
-# Musician docs
+# Decomposable docs
 
 | File | What it is | Read when |
 |------|------------|-----------|
