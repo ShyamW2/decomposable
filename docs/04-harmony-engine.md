@@ -1,8 +1,11 @@
 # 04 — Harmony engine
 
-Status: proposed. This is the project's core intellectual property and the part
-the high-tier model should design personally. Pure TypeScript, no I/O, table-driven
-tests. Lives in `harmony/`.
+Status: stages 1–3 built and passing 258 tests (2026-09-18); stages 4 and 5 are
+still design only. This is the project's core intellectual property and the part
+the high-tier model should design personally. Pure TypeScript, no I/O,
+table-driven tests. Lives in `harmony/`, mounted by `plugins/harmony/`.
+
+Where the code and this document differ, the log at the bottom says why.
 
 ## Inputs and outputs
 
@@ -133,15 +136,70 @@ diff described in `03-architecture.md`.
 
 ## Open design questions for the high tier
 
-- Should the vocabulary be closed (a table) or generated from interval formulas?
-  Recommendation: generated, with a curated allow-list of symbols for display.
-- How to represent "no chord" and single-line passages. Recommendation: a
-  candidate with quality `none` that wins when fewer than two pitch classes are
-  present.
-- Whether the rootless voicing detector should require the missing root to be
-  present in the bass stem to fire. Recommendation: no; report `omitted: [root]`
-  and let consensus with the bass track decide.
+All three are now settled, as recommended.
+
+- ~~Closed table or generated vocabulary?~~ **Generated**, in the precise sense
+  recorded in ADR-010: eighteen core qualities, each with the tensions it can
+  carry, and extensions *found* in the notes rather than enumerated as separate
+  qualities. Display spelling is curated separately in `symbolFor`.
+- ~~How to represent "no chord"?~~ **A candidate with quality `none`**, returned
+  alone when fewer than two pitch classes are present. `analyzeSong` drops those
+  windows rather than writing a row of `N.C.` that a lead sheet would filter out
+  again.
+- ~~Must the rootless detector see the root in the bass?~~ **No.** It fires on
+  the shape, reports `omitted: [root]`, and lets the bass cue in stage 2 and
+  `consensus` decide. This is why E–G–B–D alone is `Em7` and the same notes over
+  a stated C bass are `Cmaj9`, which is the correct answer to both questions.
 
 ## Log
 
 - 2026-09-18: first draft.
+
+- 2026-09-18: stages 1 to 3 built. What the design got right, and what it did not
+  say:
+
+  **Right, and load-bearing.** Ranked candidates with reasons as the output type
+  is what makes every hard case in this document *expressible* rather than a
+  coin toss. The explicit cost model means a fixture failure is an argument
+  about one named constant. Keeping the MIDI numbers through stage 1 is what
+  lets stage 3 exist at all.
+
+  **Not said, and needed.**
+
+  - *The bass is worth more than "a strong bonus".* It is the only thing that
+    separates C6 from Am7, Cmaj9-no-root from Em7, and Am7b5 from Cm6 — three of
+    the five hard cases this document names. It ended at 0.14 against a base
+    score of at most 1, and 0.10 was demonstrably too little: it lost `C13(#11)`
+    to `D7/C`, because the rival label was *complete* and the right one was
+    missing its 5th.
+  - *Completeness needs a floor under the tones that define the quality.* A
+    missing 5th is ordinary and a missing 3rd is reaching, and averaging cannot
+    say so. Without an explicit penalty, E and B-flat read as E diminished —
+    claiming a G nobody played — as readily as they read as a dominant seventh
+    missing only its root and its 5th.
+  - *Do not clip the score before sorting.* Clipping at 1 flattens the
+    distinctions at the top of the ranking, which is the only place the ranking
+    matters. Normalise by the theoretical maximum instead.
+  - *Tensions must be credited at a discount, not for free.* At full credit a
+    label that explains a note as a tension beats one that explains it as a
+    chord tone, and every chord becomes an altered dominant.
+  - *A natural 11 over a major 3rd is not a tension.* `dom7sus4` has to be its
+    own row, or every sus chord is read as a dominant with a foreign note.
+
+  **Two spellings, one sound.** `C7alt` is reachable both as `dom7` with
+  alterations and as `aug7` with alterations, because the #5 and the b13 are the
+  same key. Both print `C7alt`, which is correct, but it means the UI must not
+  show a runner-up whose symbol equals the winner's.
+
+  **Stage 4 is still missing and stage 2 already wants it.** `keyHint` is
+  consumed — the diatonic bonus works and is tested — but nothing produces one,
+  so it only applies when a caller passes a key by hand. Enharmonic spelling is
+  by convention (`Eb`, not `D#`) for the same reason: proper spelling needs a
+  key.
+
+  **Fixture kind 3 does not exist.** `fixtures/harmony/` has 230 pitch-set cases
+  and no progression cases and no audio cases, because there is no audio in this
+  repository we own except what we synthesised (ADR-008). The missing audio
+  cases are what blocks calibrating `consensus`, which is why that plugin
+  weights producers by their own confidence instead — a stand-in that measures
+  how sure a producer *claims* to be, not how often it is right.

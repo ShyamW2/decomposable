@@ -94,6 +94,12 @@ export class WorkerProcess {
     this.child = child
 
     child.on('error', (error) => this.fail(new WorkerCrashed(`worker failed to spawn: ${error.message}`)))
+    // A pipe to a process that has gone away emits EPIPE asynchronously, and an
+    // 'error' event with no listener aborts Node. The worker dying must cost us
+    // the call, never the kernel that owns it (CLAUDE.md non-negotiable 1) — and
+    // this is easiest to hit on shutdown, when SIGTERM reaches the whole process
+    // group and the Python side exits before we have written `shutdown` to it.
+    child.stdin.on('error', (error) => o.onLog?.(`could not reach the worker: ${error.message}`))
     child.on('exit', (code, signal) => {
       const why = this.exitReason ?? `worker exited (code ${code}, signal ${signal})`
       this.fail(new WorkerCrashed(why))
@@ -170,7 +176,13 @@ export class WorkerProcess {
   }
 
   private send(message: unknown): void {
-    this.child?.stdin.write(JSON.stringify(message) + '\n')
+    const stdin = this.child?.stdin
+    // The worker can die between our deciding to write and the write landing,
+    // so both halves matter: this check, and the 'error' listener on stdin.
+    if (!stdin || stdin.destroyed || !stdin.writable) return
+    stdin.write(JSON.stringify(message) + '\n', (error) => {
+      if (error) this.options.onLog?.(`could not reach the worker: ${error.message}`)
+    })
   }
 
   private onLine(line: string): void {

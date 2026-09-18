@@ -136,6 +136,29 @@ describe('worker supervisor', () => {
     expect(supervisor!.status()).toEqual([])
   })
 
+  it('does not take the kernel down when a worker dies before we write to it', async () => {
+    // What happens on every shutdown: SIGTERM reaches the whole process group,
+    // the Python side exits, and only then does the supervisor get round to
+    // asking it politely to stop. Writing to that closed pipe raises EPIPE, and
+    // an unhandled 'error' event on a socket aborts Node — taking the kernel and
+    // every other plugin with it (CLAUDE.md non-negotiable 1).
+    const worker = acquire('echo-test')
+    await worker.ready()
+    const pid = supervisor!.status()[0]!.pid!
+
+    process.kill(pid, 'SIGKILL')
+    await new Promise((r) => setTimeout(r, 300))
+
+    // The next job is a fresh reason to start a worker, whether the old one was
+    // killed for running away or simply died while nobody was looking.
+    const result = await worker.run<{ text: string }>({ kind: 'echo', text: 'hi' })
+    expect(result.text).toBe('hi')
+    expect(supervisor!.status()[0]!.pid).not.toBe(pid)
+
+    // And releasing it is quiet, not fatal.
+    await expect(worker.release()).resolves.toBeUndefined()
+  })
+
   it('holds the worker across a gap when a replacement was announced', async () => {
     const worker = acquire('echo-test')
     await worker.ready()

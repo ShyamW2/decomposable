@@ -29,7 +29,11 @@
 
 ## Beat, key, and audio chord recognition
 
-- madmom (beats, downbeats, CNN chord recognition): https://github.com/CPJKU/madmom
+- ~~madmom (beats, downbeats, CNN chord recognition)~~: https://github.com/CPJKU/madmom
+  — **does not install.** Last release 2018; its sdist needs a Cython and a
+  setuptools from that era and there are no wheels for any Python we support.
+  See ADR-009. `beat-tracker` uses librosa and Beat This!; `chord-audio` uses
+  chroma and templates.
 - Beat This! (beat tracker): https://github.com/CPJKU/beat_this
 - Chordino / NNLS chroma (Vamp plugin): http://www.isophonics.net/nnls-chroma
 - BTC, bi-directional transformer for chord recognition: https://github.com/jayg996/BTC-ISMIR19

@@ -8,9 +8,13 @@ keyboard plugged in. The app is built as a plugin kernel (Cordis) so every capab
 can be hot-swapped without restarting, a crashing plugin cannot take down the rest,
 and the app can ask a coding agent to write new plugins for it from inside the UI.
 
-Status (2026-09-18): design phase. Nothing is implemented yet. ADR-001, 003, 004,
-005 and 007 are **accepted**; ADR-002 was revised for laptop portability and, with 006
-and 008, is still **proposed**. See `docs/06-decisions.md`.
+Status (2026-09-18): phases 0 to 3 implemented — the kernel hot-swaps, a song is
+separated into stems, a MIDI keyboard is named and voiced live, and a record gets
+a chord track with disagreement markers. ADR-001, 003, 004, 005 and 007 are
+**accepted**; ADR-002 was revised for laptop portability and, with 006, 008, 009
+and 010, is still **proposed**. Two things are open and blocking: **O-9** (no Mac
+has verified any worker's `mps` path) and **O-10** (MuScriptor's weights are
+gated, so the `full` transcriber has never run). See `docs/06-decisions.md`.
 
 ## How to use this file and the docs
 

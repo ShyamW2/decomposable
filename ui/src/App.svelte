@@ -1,7 +1,20 @@
 <script lang="ts">
-  import { api, connect, type AppState, type PeakEnvelope, type ServerMessage, type SongState } from './lib/api'
+  import {
+    api,
+    connect,
+    type AppState,
+    type ChordTrack,
+    type Connection,
+    type PeakEnvelope,
+    type Reading,
+    type ServerMessage,
+    type SongState,
+  } from './lib/api'
+  import { listenToMidi } from './lib/midi'
   import { Player, formatTime, type TrackSpec } from './lib/player.svelte'
   import Track from './lib/Track.svelte'
+  import Voicing from './lib/Voicing.svelte'
+  import Chords from './lib/Chords.svelte'
 
   const STEM_COLOURS: Record<string, string> = {
     mix: '#7bb0ff',
@@ -19,10 +32,19 @@
   let error = $state<string | null>(null)
   let dragging = $state(false)
 
+  let analysis = $state<{ fraction: number; stage?: string; message?: string; error?: string } | null>(null)
+  let chords = $state<ChordTrack | null>(null)
+  let reading = $state<Reading | null>(null)
+  let midiDevices = $state<string[]>([])
+  let midiError = $state<string | null>(null)
+  let connection: Connection | null = null
+
   const player = new Player()
 
   const song = $derived(state?.songs.find((s) => s.songId === selectedId) ?? null)
   const separator = $derived(state?.separator ?? null)
+  const pipeline = $derived(state?.pipeline ?? null)
+  const canAnalyse = $derived(Boolean(pipeline?.harmony || pipeline?.beats || pipeline?.transcriber.implementation))
 
   async function refresh() {
     try {
@@ -35,14 +57,67 @@
 
   $effect(() => {
     void refresh()
-    return connect(handle)
+    connection = connect(handle)
+    return () => {
+      connection?.close()
+      connection = null
+    }
   })
+
+  // The keyboard belongs to the browser; what its messages mean belongs to the
+  // `midi` plugin. All this does is forward them.
+  $effect(() =>
+    listenToMidi(
+      (note) => connection?.note(note),
+      (devices) => {
+        midiDevices = devices.inputs
+        midiError = devices.error
+      },
+    ),
+  )
 
   function handle(message: ServerMessage) {
     if (message.type === 'state') void refresh()
     else if (message.type === 'progress') progress = message
+    else if (message.type === 'reading') reading = message.reading
+    else if (message.type === 'analysis') analysis = message
     else if (message.type === 'worker-swapped') {
       progress = { fraction: 1, message: `worker replaced (${message.policy}) with ${message.to}` }
+    }
+  }
+
+  // A different song means a different chord track.
+  $effect(() => {
+    const current = song
+    if (!current) {
+      chords = null
+      return
+    }
+    void loadChords(current.songId, null)
+  })
+
+  async function loadChords(songId: string, wanted: string | null) {
+    try {
+      chords = await api.chords(songId, wanted ?? undefined)
+    } catch {
+      // A song nobody has analysed has no chord track, which is not an error.
+      chords = null
+    }
+  }
+
+  async function analyse(force = false) {
+    if (!song) return
+    busy = true
+    error = null
+    analysis = { fraction: 0, message: 'starting' }
+    try {
+      const result = await api.analyse(song.songId, force)
+      chords = result.chords
+    } catch (e) {
+      error = (e as Error).message
+    } finally {
+      busy = false
+      analysis = null
     }
   }
 
@@ -106,11 +181,12 @@
     }
   }
 
-  async function chooseSeparator(implementation: string) {
-    if (!implementation || implementation === separator?.implementation) return
+  async function choose(service: 'separator' | 'transcriber', implementation: string) {
+    const currently = service === 'separator' ? separator?.implementation : pipeline?.transcriber.implementation
+    if (!implementation || implementation === currently) return
     error = null
     try {
-      await api.chooseSeparator(implementation)
+      await api.choose(service, implementation)
       // The loader reconciles on its own; the page just waits for the websocket.
     } catch (e) {
       error = (e as Error).message
@@ -148,10 +224,29 @@
     {/if}
     <select
       value={separator?.implementation ?? ''}
-      onchange={(e) => chooseSeparator((e.currentTarget as HTMLSelectElement).value)}
+      onchange={(e) => choose('separator', (e.currentTarget as HTMLSelectElement).value)}
       disabled={!separator?.available.length}
     >
       {#each separator?.available ?? [] as option}
+        <option value={option}>{option}</option>
+      {/each}
+    </select>
+  </div>
+  <div class="separator-box">
+    {#if pipeline?.transcriber.implementation}
+      <span class="chip ok" title={`${pipeline.transcriber.implementation}@${pipeline.transcriber.version}`}>
+        {pipeline.transcriber.implementation}
+        {#if pipeline.transcriber.info}<span class="muted">· {pipeline.transcriber.info.device}</span>{/if}
+      </span>
+    {:else}
+      <span class="chip warn">no transcriber mounted</span>
+    {/if}
+    <select
+      value={pipeline?.transcriber.implementation ?? ''}
+      onchange={(e) => choose('transcriber', (e.currentTarget as HTMLSelectElement).value)}
+      disabled={!pipeline?.transcriber.available.length}
+    >
+      {#each pipeline?.transcriber.available ?? [] as option}
         <option value={option}>{option}</option>
       {/each}
     </select>
@@ -189,6 +284,8 @@
       />
     </div>
 
+    <Voicing {reading} devices={midiDevices} error={midiError} onpanic={() => void api.panic()} />
+
     <ul class="songs">
       {#each state?.songs ?? [] as item (item.songId)}
         <li>
@@ -221,7 +318,17 @@
         {#if song.stems.length}
           <button onclick={() => separate(true)} disabled={busy || !separator?.implementation}>Force re-run</button>
         {/if}
+        <button class="primary" onclick={() => analyse(false)} disabled={busy || !canAnalyse}>
+          {chords?.chords.length ? 'Analyse again' : 'Analyse'}
+        </button>
       </div>
+
+      {#if analysis}
+        <div class="progress">
+          <div class="bar" style:width={`${Math.round(analysis.fraction * 100)}%`}></div>
+          <span class="label mono">{analysis.error ?? `${analysis.stage ?? ''} ${analysis.message ?? ''}`.trim()}</span>
+        </div>
+      {/if}
 
       {#if progress}
         <div class="progress">
@@ -253,6 +360,13 @@
           />
         {/each}
       </div>
+
+      <Chords
+        track={chords}
+        currentTime={player.currentTime}
+        onseek={(second) => player.seek(second)}
+        onproducer={(next) => song && loadChords(song.songId, next)}
+      />
 
       {#if !song.stems.length}
         <p class="muted">

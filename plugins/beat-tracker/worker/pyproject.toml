@@ -1,0 +1,15 @@
+[project]
+name = "decomposable-worker-beat-tracker"
+version = "0.1.0"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+  "decomposable-worker",
+  # lite: onset-strength beat tracking, CPU only, no weights to download.
+  "librosa>=0.10.2",
+  # full: Beat This!, which also finds downbeats. Weights arrive on first use.
+  "beat-this>=1.1",
+  "soundfile>=0.12",
+]
+
+[tool.uv.sources]
+decomposable-worker = { path = "../../../workers/shim", editable = true }

@@ -1,0 +1,1859 @@
+{
+ "_": "Pitch-set fixtures for the harmony engine (04-harmony-engine.md, \"Fixtures and evaluation\" case 1). notes: the sounding MIDI notes, written as note names. bass: the lowest confident note from the bass stem or the keyboard; when absent the engine infers it from the lowest note at half strength. expect: the top candidate symbol. quality: its quality id. Everything else is optional and only checked when present.",
+ "cases": [
+  {
+   "name": "C major triad close, root position",
+   "notes": "C4 E4 G4",
+   "expect": "C",
+   "quality": "maj",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Cm close, root position",
+   "notes": "C4 Eb4 G4",
+   "expect": "Cm",
+   "quality": "min",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Cdim close, root position",
+   "notes": "C4 Eb4 Gb4",
+   "expect": "Cdim",
+   "quality": "dim",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "C+ close, root position",
+   "notes": "C4 E4 Ab4",
+   "expect": "C+",
+   "quality": "aug",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Csus4 close, root position",
+   "notes": "C4 F4 G4",
+   "expect": "Csus4",
+   "quality": "sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "C6 close, root position",
+   "notes": "C4 E4 G4 A4",
+   "expect": "C6",
+   "quality": "maj6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Cm6 close, root position",
+   "notes": "C4 Eb4 G4 A4",
+   "expect": "Cm6",
+   "quality": "min6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Cmaj7 close, root position",
+   "notes": "C4 E4 G4 B4",
+   "expect": "Cmaj7",
+   "quality": "maj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Cm7 close, root position",
+   "notes": "C4 Eb4 G4 Bb4",
+   "expect": "Cm7",
+   "quality": "min7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "C7 close, root position",
+   "notes": "C4 E4 G4 Bb4",
+   "expect": "C7",
+   "quality": "dom7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Cm7b5 close, root position",
+   "notes": "C4 Eb4 Gb4 Bb4",
+   "expect": "Cm7b5",
+   "quality": "m7b5",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Cdim7 close, root position",
+   "notes": "C4 Eb4 Gb4 A4",
+   "expect": "Cdim7",
+   "quality": "dim7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "CmMaj7 close, root position",
+   "notes": "C4 Eb4 G4 B4",
+   "expect": "CmMaj7",
+   "quality": "minMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Cmaj7#5 close, root position",
+   "notes": "C4 E4 Ab4 B4",
+   "expect": "Cmaj7#5",
+   "quality": "augMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "C7#5 close, root position",
+   "notes": "C4 E4 Ab4 Bb4",
+   "expect": "C7#5",
+   "quality": "aug7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "C7sus4 close, root position",
+   "notes": "C4 F4 G4 Bb4",
+   "expect": "C7sus4",
+   "quality": "dom7sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Db major triad close, root position",
+   "notes": "Db4 F4 Ab4",
+   "expect": "Db",
+   "quality": "maj",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Dbm close, root position",
+   "notes": "Db4 E4 Ab4",
+   "expect": "Dbm",
+   "quality": "min",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Dbdim close, root position",
+   "notes": "Db4 E4 G4",
+   "expect": "Dbdim",
+   "quality": "dim",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Db+ close, root position",
+   "notes": "Db4 F4 A4",
+   "expect": "Db+",
+   "quality": "aug",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Dbsus4 close, root position",
+   "notes": "Db4 Gb4 Ab4",
+   "expect": "Dbsus4",
+   "quality": "sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Db6 close, root position",
+   "notes": "Db4 F4 Ab4 Bb4",
+   "expect": "Db6",
+   "quality": "maj6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Dbm6 close, root position",
+   "notes": "Db4 E4 Ab4 Bb4",
+   "expect": "Dbm6",
+   "quality": "min6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Dbmaj7 close, root position",
+   "notes": "Db4 F4 Ab4 C5",
+   "expect": "Dbmaj7",
+   "quality": "maj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Dbm7 close, root position",
+   "notes": "Db4 E4 Ab4 B4",
+   "expect": "Dbm7",
+   "quality": "min7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Db7 close, root position",
+   "notes": "Db4 F4 Ab4 B4",
+   "expect": "Db7",
+   "quality": "dom7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Dbm7b5 close, root position",
+   "notes": "Db4 E4 G4 B4",
+   "expect": "Dbm7b5",
+   "quality": "m7b5",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Dbdim7 close, root position",
+   "notes": "Db4 E4 G4 Bb4",
+   "expect": "Dbdim7",
+   "quality": "dim7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "DbmMaj7 close, root position",
+   "notes": "Db4 E4 Ab4 C5",
+   "expect": "DbmMaj7",
+   "quality": "minMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Dbmaj7#5 close, root position",
+   "notes": "Db4 F4 A4 C5",
+   "expect": "Dbmaj7#5",
+   "quality": "augMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Db7#5 close, root position",
+   "notes": "Db4 F4 A4 B4",
+   "expect": "Db7#5",
+   "quality": "aug7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Db7sus4 close, root position",
+   "notes": "Db4 Gb4 Ab4 B4",
+   "expect": "Db7sus4",
+   "quality": "dom7sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "D major triad close, root position",
+   "notes": "D4 Gb4 A4",
+   "expect": "D",
+   "quality": "maj",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Dm close, root position",
+   "notes": "D4 F4 A4",
+   "expect": "Dm",
+   "quality": "min",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ddim close, root position",
+   "notes": "D4 F4 Ab4",
+   "expect": "Ddim",
+   "quality": "dim",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "D+ close, root position",
+   "notes": "D4 Gb4 Bb4",
+   "expect": "D+",
+   "quality": "aug",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Dsus4 close, root position",
+   "notes": "D4 G4 A4",
+   "expect": "Dsus4",
+   "quality": "sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "D6 close, root position",
+   "notes": "D4 Gb4 A4 B4",
+   "expect": "D6",
+   "quality": "maj6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Dm6 close, root position",
+   "notes": "D4 F4 A4 B4",
+   "expect": "Dm6",
+   "quality": "min6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Dmaj7 close, root position",
+   "notes": "D4 Gb4 A4 Db5",
+   "expect": "Dmaj7",
+   "quality": "maj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Dm7 close, root position",
+   "notes": "D4 F4 A4 C5",
+   "expect": "Dm7",
+   "quality": "min7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "D7 close, root position",
+   "notes": "D4 Gb4 A4 C5",
+   "expect": "D7",
+   "quality": "dom7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Dm7b5 close, root position",
+   "notes": "D4 F4 Ab4 C5",
+   "expect": "Dm7b5",
+   "quality": "m7b5",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ddim7 close, root position",
+   "notes": "D4 F4 Ab4 B4",
+   "expect": "Ddim7",
+   "quality": "dim7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "DmMaj7 close, root position",
+   "notes": "D4 F4 A4 Db5",
+   "expect": "DmMaj7",
+   "quality": "minMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Dmaj7#5 close, root position",
+   "notes": "D4 Gb4 Bb4 Db5",
+   "expect": "Dmaj7#5",
+   "quality": "augMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "D7#5 close, root position",
+   "notes": "D4 Gb4 Bb4 C5",
+   "expect": "D7#5",
+   "quality": "aug7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "D7sus4 close, root position",
+   "notes": "D4 G4 A4 C5",
+   "expect": "D7sus4",
+   "quality": "dom7sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Eb major triad close, root position",
+   "notes": "Eb4 G4 Bb4",
+   "expect": "Eb",
+   "quality": "maj",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ebm close, root position",
+   "notes": "Eb4 Gb4 Bb4",
+   "expect": "Ebm",
+   "quality": "min",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ebdim close, root position",
+   "notes": "Eb4 Gb4 A4",
+   "expect": "Ebdim",
+   "quality": "dim",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Eb+ close, root position",
+   "notes": "Eb4 G4 B4",
+   "expect": "Eb+",
+   "quality": "aug",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ebsus4 close, root position",
+   "notes": "Eb4 Ab4 Bb4",
+   "expect": "Ebsus4",
+   "quality": "sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Eb6 close, root position",
+   "notes": "Eb4 G4 Bb4 C5",
+   "expect": "Eb6",
+   "quality": "maj6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ebm6 close, root position",
+   "notes": "Eb4 Gb4 Bb4 C5",
+   "expect": "Ebm6",
+   "quality": "min6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ebmaj7 close, root position",
+   "notes": "Eb4 G4 Bb4 D5",
+   "expect": "Ebmaj7",
+   "quality": "maj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ebm7 close, root position",
+   "notes": "Eb4 Gb4 Bb4 Db5",
+   "expect": "Ebm7",
+   "quality": "min7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Eb7 close, root position",
+   "notes": "Eb4 G4 Bb4 Db5",
+   "expect": "Eb7",
+   "quality": "dom7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ebm7b5 close, root position",
+   "notes": "Eb4 Gb4 A4 Db5",
+   "expect": "Ebm7b5",
+   "quality": "m7b5",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ebdim7 close, root position",
+   "notes": "Eb4 Gb4 A4 C5",
+   "expect": "Ebdim7",
+   "quality": "dim7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "EbmMaj7 close, root position",
+   "notes": "Eb4 Gb4 Bb4 D5",
+   "expect": "EbmMaj7",
+   "quality": "minMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ebmaj7#5 close, root position",
+   "notes": "Eb4 G4 B4 D5",
+   "expect": "Ebmaj7#5",
+   "quality": "augMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Eb7#5 close, root position",
+   "notes": "Eb4 G4 B4 Db5",
+   "expect": "Eb7#5",
+   "quality": "aug7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Eb7sus4 close, root position",
+   "notes": "Eb4 Ab4 Bb4 Db5",
+   "expect": "Eb7sus4",
+   "quality": "dom7sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "E major triad close, root position",
+   "notes": "E4 Ab4 B4",
+   "expect": "E",
+   "quality": "maj",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Em close, root position",
+   "notes": "E4 G4 B4",
+   "expect": "Em",
+   "quality": "min",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Edim close, root position",
+   "notes": "E4 G4 Bb4",
+   "expect": "Edim",
+   "quality": "dim",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "E+ close, root position",
+   "notes": "E4 Ab4 C5",
+   "expect": "E+",
+   "quality": "aug",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Esus4 close, root position",
+   "notes": "E4 A4 B4",
+   "expect": "Esus4",
+   "quality": "sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "E6 close, root position",
+   "notes": "E4 Ab4 B4 Db5",
+   "expect": "E6",
+   "quality": "maj6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Em6 close, root position",
+   "notes": "E4 G4 B4 Db5",
+   "expect": "Em6",
+   "quality": "min6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Emaj7 close, root position",
+   "notes": "E4 Ab4 B4 Eb5",
+   "expect": "Emaj7",
+   "quality": "maj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Em7 close, root position",
+   "notes": "E4 G4 B4 D5",
+   "expect": "Em7",
+   "quality": "min7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "E7 close, root position",
+   "notes": "E4 Ab4 B4 D5",
+   "expect": "E7",
+   "quality": "dom7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Em7b5 close, root position",
+   "notes": "E4 G4 Bb4 D5",
+   "expect": "Em7b5",
+   "quality": "m7b5",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Edim7 close, root position",
+   "notes": "E4 G4 Bb4 Db5",
+   "expect": "Edim7",
+   "quality": "dim7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "EmMaj7 close, root position",
+   "notes": "E4 G4 B4 Eb5",
+   "expect": "EmMaj7",
+   "quality": "minMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Emaj7#5 close, root position",
+   "notes": "E4 Ab4 C5 Eb5",
+   "expect": "Emaj7#5",
+   "quality": "augMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "E7#5 close, root position",
+   "notes": "E4 Ab4 C5 D5",
+   "expect": "E7#5",
+   "quality": "aug7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "E7sus4 close, root position",
+   "notes": "E4 A4 B4 D5",
+   "expect": "E7sus4",
+   "quality": "dom7sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "F major triad close, root position",
+   "notes": "F4 A4 C5",
+   "expect": "F",
+   "quality": "maj",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Fm close, root position",
+   "notes": "F4 Ab4 C5",
+   "expect": "Fm",
+   "quality": "min",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Fdim close, root position",
+   "notes": "F4 Ab4 B4",
+   "expect": "Fdim",
+   "quality": "dim",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "F+ close, root position",
+   "notes": "F4 A4 Db5",
+   "expect": "F+",
+   "quality": "aug",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Fsus4 close, root position",
+   "notes": "F4 Bb4 C5",
+   "expect": "Fsus4",
+   "quality": "sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "F6 close, root position",
+   "notes": "F4 A4 C5 D5",
+   "expect": "F6",
+   "quality": "maj6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Fm6 close, root position",
+   "notes": "F4 Ab4 C5 D5",
+   "expect": "Fm6",
+   "quality": "min6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Fmaj7 close, root position",
+   "notes": "F4 A4 C5 E5",
+   "expect": "Fmaj7",
+   "quality": "maj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Fm7 close, root position",
+   "notes": "F4 Ab4 C5 Eb5",
+   "expect": "Fm7",
+   "quality": "min7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "F7 close, root position",
+   "notes": "F4 A4 C5 Eb5",
+   "expect": "F7",
+   "quality": "dom7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Fm7b5 close, root position",
+   "notes": "F4 Ab4 B4 Eb5",
+   "expect": "Fm7b5",
+   "quality": "m7b5",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Fdim7 close, root position",
+   "notes": "F4 Ab4 B4 D5",
+   "expect": "Fdim7",
+   "quality": "dim7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "FmMaj7 close, root position",
+   "notes": "F4 Ab4 C5 E5",
+   "expect": "FmMaj7",
+   "quality": "minMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Fmaj7#5 close, root position",
+   "notes": "F4 A4 Db5 E5",
+   "expect": "Fmaj7#5",
+   "quality": "augMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "F7#5 close, root position",
+   "notes": "F4 A4 Db5 Eb5",
+   "expect": "F7#5",
+   "quality": "aug7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "F7sus4 close, root position",
+   "notes": "F4 Bb4 C5 Eb5",
+   "expect": "F7sus4",
+   "quality": "dom7sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gb major triad close, root position",
+   "notes": "Gb4 Bb4 Db5",
+   "expect": "Gb",
+   "quality": "maj",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gbm close, root position",
+   "notes": "Gb4 A4 Db5",
+   "expect": "Gbm",
+   "quality": "min",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gbdim close, root position",
+   "notes": "Gb4 A4 C5",
+   "expect": "Gbdim",
+   "quality": "dim",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gb+ close, root position",
+   "notes": "Gb4 Bb4 D5",
+   "expect": "Gb+",
+   "quality": "aug",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gbsus4 close, root position",
+   "notes": "Gb4 B4 Db5",
+   "expect": "Gbsus4",
+   "quality": "sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gb6 close, root position",
+   "notes": "Gb4 Bb4 Db5 Eb5",
+   "expect": "Gb6",
+   "quality": "maj6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gbm6 close, root position",
+   "notes": "Gb4 A4 Db5 Eb5",
+   "expect": "Gbm6",
+   "quality": "min6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gbmaj7 close, root position",
+   "notes": "Gb4 Bb4 Db5 F5",
+   "expect": "Gbmaj7",
+   "quality": "maj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gbm7 close, root position",
+   "notes": "Gb4 A4 Db5 E5",
+   "expect": "Gbm7",
+   "quality": "min7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gb7 close, root position",
+   "notes": "Gb4 Bb4 Db5 E5",
+   "expect": "Gb7",
+   "quality": "dom7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gbm7b5 close, root position",
+   "notes": "Gb4 A4 C5 E5",
+   "expect": "Gbm7b5",
+   "quality": "m7b5",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gbdim7 close, root position",
+   "notes": "Gb4 A4 C5 Eb5",
+   "expect": "Gbdim7",
+   "quality": "dim7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "GbmMaj7 close, root position",
+   "notes": "Gb4 A4 Db5 F5",
+   "expect": "GbmMaj7",
+   "quality": "minMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gbmaj7#5 close, root position",
+   "notes": "Gb4 Bb4 D5 F5",
+   "expect": "Gbmaj7#5",
+   "quality": "augMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gb7#5 close, root position",
+   "notes": "Gb4 Bb4 D5 E5",
+   "expect": "Gb7#5",
+   "quality": "aug7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gb7sus4 close, root position",
+   "notes": "Gb4 B4 Db5 E5",
+   "expect": "Gb7sus4",
+   "quality": "dom7sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "G major triad close, root position",
+   "notes": "G4 B4 D5",
+   "expect": "G",
+   "quality": "maj",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gm close, root position",
+   "notes": "G4 Bb4 D5",
+   "expect": "Gm",
+   "quality": "min",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gdim close, root position",
+   "notes": "G4 Bb4 Db5",
+   "expect": "Gdim",
+   "quality": "dim",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "G+ close, root position",
+   "notes": "G4 B4 Eb5",
+   "expect": "G+",
+   "quality": "aug",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gsus4 close, root position",
+   "notes": "G4 C5 D5",
+   "expect": "Gsus4",
+   "quality": "sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "G6 close, root position",
+   "notes": "G4 B4 D5 E5",
+   "expect": "G6",
+   "quality": "maj6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gm6 close, root position",
+   "notes": "G4 Bb4 D5 E5",
+   "expect": "Gm6",
+   "quality": "min6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gmaj7 close, root position",
+   "notes": "G4 B4 D5 Gb5",
+   "expect": "Gmaj7",
+   "quality": "maj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gm7 close, root position",
+   "notes": "G4 Bb4 D5 F5",
+   "expect": "Gm7",
+   "quality": "min7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "G7 close, root position",
+   "notes": "G4 B4 D5 F5",
+   "expect": "G7",
+   "quality": "dom7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gm7b5 close, root position",
+   "notes": "G4 Bb4 Db5 F5",
+   "expect": "Gm7b5",
+   "quality": "m7b5",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gdim7 close, root position",
+   "notes": "G4 Bb4 Db5 E5",
+   "expect": "Gdim7",
+   "quality": "dim7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "GmMaj7 close, root position",
+   "notes": "G4 Bb4 D5 Gb5",
+   "expect": "GmMaj7",
+   "quality": "minMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Gmaj7#5 close, root position",
+   "notes": "G4 B4 Eb5 Gb5",
+   "expect": "Gmaj7#5",
+   "quality": "augMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "G7#5 close, root position",
+   "notes": "G4 B4 Eb5 F5",
+   "expect": "G7#5",
+   "quality": "aug7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "G7sus4 close, root position",
+   "notes": "G4 C5 D5 F5",
+   "expect": "G7sus4",
+   "quality": "dom7sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ab major triad close, root position",
+   "notes": "Ab4 C5 Eb5",
+   "expect": "Ab",
+   "quality": "maj",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Abm close, root position",
+   "notes": "Ab4 B4 Eb5",
+   "expect": "Abm",
+   "quality": "min",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Abdim close, root position",
+   "notes": "Ab4 B4 D5",
+   "expect": "Abdim",
+   "quality": "dim",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ab+ close, root position",
+   "notes": "Ab4 C5 E5",
+   "expect": "Ab+",
+   "quality": "aug",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Absus4 close, root position",
+   "notes": "Ab4 Db5 Eb5",
+   "expect": "Absus4",
+   "quality": "sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ab6 close, root position",
+   "notes": "Ab4 C5 Eb5 F5",
+   "expect": "Ab6",
+   "quality": "maj6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Abm6 close, root position",
+   "notes": "Ab4 B4 Eb5 F5",
+   "expect": "Abm6",
+   "quality": "min6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Abmaj7 close, root position",
+   "notes": "Ab4 C5 Eb5 G5",
+   "expect": "Abmaj7",
+   "quality": "maj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Abm7 close, root position",
+   "notes": "Ab4 B4 Eb5 Gb5",
+   "expect": "Abm7",
+   "quality": "min7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ab7 close, root position",
+   "notes": "Ab4 C5 Eb5 Gb5",
+   "expect": "Ab7",
+   "quality": "dom7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Abm7b5 close, root position",
+   "notes": "Ab4 B4 D5 Gb5",
+   "expect": "Abm7b5",
+   "quality": "m7b5",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Abdim7 close, root position",
+   "notes": "Ab4 B4 D5 F5",
+   "expect": "Abdim7",
+   "quality": "dim7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "AbmMaj7 close, root position",
+   "notes": "Ab4 B4 Eb5 G5",
+   "expect": "AbmMaj7",
+   "quality": "minMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Abmaj7#5 close, root position",
+   "notes": "Ab4 C5 E5 G5",
+   "expect": "Abmaj7#5",
+   "quality": "augMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ab7#5 close, root position",
+   "notes": "Ab4 C5 E5 Gb5",
+   "expect": "Ab7#5",
+   "quality": "aug7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Ab7sus4 close, root position",
+   "notes": "Ab4 Db5 Eb5 Gb5",
+   "expect": "Ab7sus4",
+   "quality": "dom7sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "A major triad close, root position",
+   "notes": "A4 Db5 E5",
+   "expect": "A",
+   "quality": "maj",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Am close, root position",
+   "notes": "A4 C5 E5",
+   "expect": "Am",
+   "quality": "min",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Adim close, root position",
+   "notes": "A4 C5 Eb5",
+   "expect": "Adim",
+   "quality": "dim",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "A+ close, root position",
+   "notes": "A4 Db5 F5",
+   "expect": "A+",
+   "quality": "aug",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Asus4 close, root position",
+   "notes": "A4 D5 E5",
+   "expect": "Asus4",
+   "quality": "sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "A6 close, root position",
+   "notes": "A4 Db5 E5 Gb5",
+   "expect": "A6",
+   "quality": "maj6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Am6 close, root position",
+   "notes": "A4 C5 E5 Gb5",
+   "expect": "Am6",
+   "quality": "min6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Amaj7 close, root position",
+   "notes": "A4 Db5 E5 Ab5",
+   "expect": "Amaj7",
+   "quality": "maj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Am7 close, root position",
+   "notes": "A4 C5 E5 G5",
+   "expect": "Am7",
+   "quality": "min7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "A7 close, root position",
+   "notes": "A4 Db5 E5 G5",
+   "expect": "A7",
+   "quality": "dom7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Am7b5 close, root position",
+   "notes": "A4 C5 Eb5 G5",
+   "expect": "Am7b5",
+   "quality": "m7b5",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Adim7 close, root position",
+   "notes": "A4 C5 Eb5 Gb5",
+   "expect": "Adim7",
+   "quality": "dim7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "AmMaj7 close, root position",
+   "notes": "A4 C5 E5 Ab5",
+   "expect": "AmMaj7",
+   "quality": "minMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Amaj7#5 close, root position",
+   "notes": "A4 Db5 F5 Ab5",
+   "expect": "Amaj7#5",
+   "quality": "augMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "A7#5 close, root position",
+   "notes": "A4 Db5 F5 G5",
+   "expect": "A7#5",
+   "quality": "aug7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "A7sus4 close, root position",
+   "notes": "A4 D5 E5 G5",
+   "expect": "A7sus4",
+   "quality": "dom7sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bb major triad close, root position",
+   "notes": "Bb4 D5 F5",
+   "expect": "Bb",
+   "quality": "maj",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bbm close, root position",
+   "notes": "Bb4 Db5 F5",
+   "expect": "Bbm",
+   "quality": "min",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bbdim close, root position",
+   "notes": "Bb4 Db5 E5",
+   "expect": "Bbdim",
+   "quality": "dim",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bb+ close, root position",
+   "notes": "Bb4 D5 Gb5",
+   "expect": "Bb+",
+   "quality": "aug",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bbsus4 close, root position",
+   "notes": "Bb4 Eb5 F5",
+   "expect": "Bbsus4",
+   "quality": "sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bb6 close, root position",
+   "notes": "Bb4 D5 F5 G5",
+   "expect": "Bb6",
+   "quality": "maj6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bbm6 close, root position",
+   "notes": "Bb4 Db5 F5 G5",
+   "expect": "Bbm6",
+   "quality": "min6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bbmaj7 close, root position",
+   "notes": "Bb4 D5 F5 A5",
+   "expect": "Bbmaj7",
+   "quality": "maj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bbm7 close, root position",
+   "notes": "Bb4 Db5 F5 Ab5",
+   "expect": "Bbm7",
+   "quality": "min7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bb7 close, root position",
+   "notes": "Bb4 D5 F5 Ab5",
+   "expect": "Bb7",
+   "quality": "dom7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bbm7b5 close, root position",
+   "notes": "Bb4 Db5 E5 Ab5",
+   "expect": "Bbm7b5",
+   "quality": "m7b5",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bbdim7 close, root position",
+   "notes": "Bb4 Db5 E5 G5",
+   "expect": "Bbdim7",
+   "quality": "dim7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "BbmMaj7 close, root position",
+   "notes": "Bb4 Db5 F5 A5",
+   "expect": "BbmMaj7",
+   "quality": "minMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bbmaj7#5 close, root position",
+   "notes": "Bb4 D5 Gb5 A5",
+   "expect": "Bbmaj7#5",
+   "quality": "augMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bb7#5 close, root position",
+   "notes": "Bb4 D5 Gb5 Ab5",
+   "expect": "Bb7#5",
+   "quality": "aug7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bb7sus4 close, root position",
+   "notes": "Bb4 Eb5 F5 Ab5",
+   "expect": "Bb7sus4",
+   "quality": "dom7sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "B major triad close, root position",
+   "notes": "B4 Eb5 Gb5",
+   "expect": "B",
+   "quality": "maj",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bm close, root position",
+   "notes": "B4 D5 Gb5",
+   "expect": "Bm",
+   "quality": "min",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bdim close, root position",
+   "notes": "B4 D5 F5",
+   "expect": "Bdim",
+   "quality": "dim",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "B+ close, root position",
+   "notes": "B4 Eb5 G5",
+   "expect": "B+",
+   "quality": "aug",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bsus4 close, root position",
+   "notes": "B4 E5 Gb5",
+   "expect": "Bsus4",
+   "quality": "sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "B6 close, root position",
+   "notes": "B4 Eb5 Gb5 Ab5",
+   "expect": "B6",
+   "quality": "maj6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bm6 close, root position",
+   "notes": "B4 D5 Gb5 Ab5",
+   "expect": "Bm6",
+   "quality": "min6",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bmaj7 close, root position",
+   "notes": "B4 Eb5 Gb5 Bb5",
+   "expect": "Bmaj7",
+   "quality": "maj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bm7 close, root position",
+   "notes": "B4 D5 Gb5 A5",
+   "expect": "Bm7",
+   "quality": "min7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "B7 close, root position",
+   "notes": "B4 Eb5 Gb5 A5",
+   "expect": "B7",
+   "quality": "dom7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bm7b5 close, root position",
+   "notes": "B4 D5 F5 A5",
+   "expect": "Bm7b5",
+   "quality": "m7b5",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bdim7 close, root position",
+   "notes": "B4 D5 F5 Ab5",
+   "expect": "Bdim7",
+   "quality": "dim7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "BmMaj7 close, root position",
+   "notes": "B4 D5 Gb5 Bb5",
+   "expect": "BmMaj7",
+   "quality": "minMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "Bmaj7#5 close, root position",
+   "notes": "B4 Eb5 G5 Bb5",
+   "expect": "Bmaj7#5",
+   "quality": "augMaj7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "B7#5 close, root position",
+   "notes": "B4 Eb5 G5 A5",
+   "expect": "B7#5",
+   "quality": "aug7",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "B7sus4 close, root position",
+   "notes": "B4 E5 Gb5 A5",
+   "expect": "B7sus4",
+   "quality": "dom7sus4",
+   "voicing": "close",
+   "group": "grid"
+  },
+  {
+   "name": "C6 and Am7 are the same notes; the bass decides",
+   "notes": "C4 E4 G4 A4",
+   "bass": "C2",
+   "expect": "C6",
+   "quality": "maj6",
+   "runnerUp": "Am7/C",
+   "why": "parsimony plus a C in the bass: C6 says it in one chord tone fewer than Am7 over C",
+   "group": "hard"
+  },
+  {
+   "name": "the same notes over an A bass are Am7",
+   "notes": "C4 E4 G4 A4",
+   "bass": "A1",
+   "expect": "Am7",
+   "quality": "min7",
+   "runnerUp": "C6/A",
+   "group": "hard"
+  },
+  {
+   "name": "E G B D with nothing under it is Em7, not a rootless Cmaj9",
+   "notes": "E4 G4 B4 D5",
+   "expect": "Em7",
+   "quality": "min7",
+   "why": "a complete label beats one that has to omit its own root",
+   "group": "hard"
+  },
+  {
+   "name": "the same four notes over a C bass are Cmaj9",
+   "notes": "C2 E4 G4 B4 D5",
+   "expect": "Cmaj9",
+   "quality": "maj7",
+   "group": "hard"
+  },
+  {
+   "name": "C7#9 rather than Eb over C",
+   "notes": "C3 E3 G3 Bb3 Eb4",
+   "bass": "C2",
+   "expect": "C7(#9)",
+   "quality": "dom7",
+   "why": "the E natural is foreign to an Eb triad, and C is foreign to it too",
+   "group": "hard"
+  },
+  {
+   "name": "half-diminished over its own root",
+   "notes": "A3 C4 Eb4 G4",
+   "bass": "A1",
+   "expect": "Am7b5",
+   "quality": "m7b5",
+   "runnerUp": "Cm6/A",
+   "group": "hard"
+  },
+  {
+   "name": "the same notes over a C bass are a minor sixth chord",
+   "notes": "A3 C4 Eb4 G4",
+   "bass": "C2",
+   "expect": "Cm6",
+   "quality": "min6",
+   "runnerUp": "Am7b5/C",
+   "group": "hard"
+  },
+  {
+   "name": "sus and quartal are answers to different questions",
+   "notes": "D3 G3 C4 F4 A4",
+   "expect": "Dm7(11)",
+   "quality": "min7",
+   "voicing": "so-what",
+   "why": "the chord is a minor 11th; quartal describes how it was stacked, not what it is",
+   "group": "hard"
+  },
+  {
+   "name": "one pitch class is not a chord",
+   "notes": "C4 C5",
+   "expect": "N.C.",
+   "quality": "none",
+   "group": "hard"
+  },
+  {
+   "name": "silence is not a chord",
+   "notes": "",
+   "expect": "N.C.",
+   "quality": "none",
+   "group": "hard"
+  },
+  {
+   "name": "two pitch classes can still be a chord",
+   "notes": "C3 G3",
+   "expect": "C5",
+   "quality": "five",
+   "group": "hard"
+  },
+  {
+   "name": "first inversion major triad",
+   "notes": "E3 G3 C4",
+   "expect": "C/E",
+   "quality": "maj",
+   "inversion": 1,
+   "group": "hard"
+  },
+  {
+   "name": "second inversion major triad",
+   "notes": "G3 C4 E4",
+   "expect": "C/G",
+   "quality": "maj",
+   "inversion": 2,
+   "group": "hard"
+  },
+  {
+   "name": "third inversion dominant seventh",
+   "notes": "Bb2 C3 E3 G3",
+   "expect": "C7/Bb",
+   "quality": "dom7",
+   "inversion": 3,
+   "group": "hard"
+  },
+  {
+   "name": "a bass note can complete the chord above it",
+   "notes": "C2 D3 F#3 A3",
+   "expect": "D7/C",
+   "quality": "dom7",
+   "why": "C under a D triad is not a foreign pedal, it is the flat seventh: third-inversion D7",
+   "group": "hard",
+   "inversion": 3
+  },
+  {
+   "name": "major thirteenth",
+   "notes": "C3 E3 G3 B3 D4 A4",
+   "bass": "C2",
+   "expect": "Cmaj13",
+   "quality": "maj7",
+   "group": "hard"
+  },
+  {
+   "name": "dominant thirteenth with a sharp eleventh",
+   "notes": "C3 E3 Bb3 D4 F#4 A4",
+   "bass": "C2",
+   "expect": "C13(#11)",
+   "quality": "dom7",
+   "voicing": "upper-structure",
+   "upper": "UST II",
+   "why": "a D major triad over the 3rd and 7th of C7",
+   "group": "hard"
+  },
+  {
+   "name": "flat ninth alone stays in parentheses",
+   "notes": "C3 E3 G3 Bb3 Db4",
+   "bass": "C2",
+   "expect": "C7(b9)",
+   "quality": "dom7",
+   "group": "hard"
+  },
+  {
+   "name": "three alterations is one chord symbol, not a list",
+   "notes": "C3 E3 Bb3 Db4 Eb4 Ab4",
+   "bass": "C2",
+   "expect": "C7alt",
+   "quality": "aug7",
+   "group": "hard",
+   "why": "the A-flat is the flat thirteenth and the sharp fifth at once; either way the chart says C7alt"
+  },
+  {
+   "name": "minor eleventh",
+   "notes": "C3 Eb3 G3 Bb3 D4 F4",
+   "bass": "C2",
+   "expect": "Cm11",
+   "quality": "min7",
+   "group": "hard"
+  },
+  {
+   "name": "six nine",
+   "notes": "C3 E3 G3 A3 D4",
+   "bass": "C2",
+   "expect": "C6/9",
+   "quality": "maj6",
+   "group": "hard"
+  },
+  {
+   "name": "a thirteenth without a ninth under it is not a thirteenth chord",
+   "notes": "C3 E3 G3 Bb3 A4",
+   "bass": "C2",
+   "expect": "C7(13)",
+   "quality": "dom7",
+   "group": "hard"
+  },
+  {
+   "name": "drop 2 on a major seventh",
+   "notes": "G3 C4 E4 B4",
+   "expect": "Cmaj7/G",
+   "quality": "maj7",
+   "voicing": "drop2",
+   "topDegree": "7th",
+   "group": "hard"
+  },
+  {
+   "name": "drop 3 on a major seventh",
+   "notes": "E3 C4 G4 B4",
+   "expect": "Cmaj7/E",
+   "quality": "maj7",
+   "voicing": "drop3",
+   "topDegree": "7th",
+   "group": "hard"
+  },
+  {
+   "name": "drop 2 and 4 on a major seventh",
+   "notes": "C3 G3 E4 B4",
+   "expect": "Cmaj7",
+   "quality": "maj7",
+   "voicing": "drop2and4",
+   "topDegree": "7th",
+   "group": "hard"
+  },
+  {
+   "name": "shell voicing: root, third, seventh",
+   "notes": "C3 E3 Bb3",
+   "expect": "C7",
+   "quality": "dom7",
+   "voicing": "shell",
+   "group": "hard"
+  },
+  {
+   "name": "guide tones alone are a tritone, and a tritone belongs to two dominants",
+   "notes": "E3 Bb3",
+   "expect": "C7/E",
+   "quality": "dom7",
+   "runnerUp": "Gb7/E",
+   "ambiguous": true,
+   "why": "tritone substitution is not a trick, it is this tie",
+   "group": "hard"
+  },
+  {
+   "name": "rootless A form over a bass note",
+   "notes": "Eb4 G4 Bb4 D5",
+   "bass": "C2",
+   "expect": "Cm9",
+   "quality": "min7",
+   "voicing": "rootless-a",
+   "group": "hard"
+  },
+  {
+   "name": "rootless B form over a bass note",
+   "notes": "Bb3 D4 E4 A4",
+   "bass": "C2",
+   "expect": "C13",
+   "quality": "dom7",
+   "voicing": "rootless-b",
+   "group": "hard"
+  },
+  {
+   "name": "quartal stack on a minor chord",
+   "notes": "E3 A3 D4 G4",
+   "expect": "Em7(11)",
+   "quality": "min7",
+   "voicing": "quartal",
+   "group": "hard",
+   "bass": "E1",
+   "runnerUp": "A7sus4/E",
+   "why": "the same four notes are a complete A7sus4; the bass is what makes them an E minor chord"
+  },
+  {
+   "name": "a cluster is a texture, and the label survives it",
+   "notes": "C4 D4 Eb4 G4",
+   "expect": "Cm(add9)",
+   "quality": "min",
+   "voicing": "cluster",
+   "group": "hard",
+   "why": "no seventh, so the ninth is an addition rather than a stack"
+  },
+  {
+   "name": "spread voicing across three octaves",
+   "notes": "C2 G3 E5 B5",
+   "expect": "Cmaj7",
+   "quality": "maj7",
+   "voicing": "spread",
+   "group": "hard"
+  },
+  {
+   "name": "polychord: F# major over C major",
+   "notes": "C3 E3 G3 F#4 A#4 C#5",
+   "voicing": "polychord",
+   "group": "hard"
+  },
+  {
+   "name": "the ii chord of C major",
+   "notes": "D3 F3 A3 C4",
+   "key": "C major",
+   "expect": "Dm7",
+   "quality": "min7",
+   "reason": "diatonic in the key",
+   "group": "hard"
+  },
+  {
+   "name": "a held chord does not flicker",
+   "notes": "C4 E4 G4 A4",
+   "bass": "C2",
+   "prev": "C:maj6",
+   "expect": "C6",
+   "quality": "maj6",
+   "group": "hard"
+  },
+  {
+   "name": "a missing fifth costs almost nothing",
+   "notes": "C3 E3 Bb3 D4",
+   "bass": "C2",
+   "expect": "C9",
+   "quality": "dom7",
+   "omitted": [
+    "G"
+   ],
+   "group": "hard"
+  },
+  {
+   "name": "a passing note the label cannot explain",
+   "notes": "C3 E3 G3 B3 F#4",
+   "bass": "C2",
+   "expect": "Cmaj7(#11)",
+   "quality": "maj7",
+   "group": "hard"
+  }
+ ]
+}

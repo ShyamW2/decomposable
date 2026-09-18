@@ -1,0 +1,17 @@
+{
+  "name": "beat-tracker",
+  "version": "1.0.0",
+  "kind": "py-worker",
+  "description": "Finds beats, and downbeats where the model knows them. lite = librosa (no weights, CPU); full = Beat This! (downbeats, model download).",
+  "inject": ["worker-supervisor", "analysis-store", "ingest"],
+  "provides": ["beats"],
+  "worker": {
+    "dir": "plugins/beat-tracker/worker",
+    "devices": ["cpu", "cuda", "mps"],
+    "warmupBudget": 300,
+    "models": {
+      "lite": { "id": "librosa", "peakMemoryMiB": 900 },
+      "full": { "id": "beat-this", "peakMemoryMiB": 2200 }
+    }
+  }
+}

@@ -13,6 +13,9 @@ const SERVICES: Record<string, { entry: string; config: (tmp: string) => unknown
   'analysis-store': { entry: 'kernel/src/analysis-store/index.ts', config: (tmp) => ({ root: join(tmp, 'workspaces') }) },
   'worker-supervisor': { entry: 'kernel/src/worker-supervisor/index.ts', config: () => ({ swap: 'stop-start', graceMs: 0 }) },
   ingest: { entry: 'plugins/ingest/index.ts', config: () => ({}) },
+  harmony: { entry: 'plugins/harmony/index.ts', config: () => ({}) },
+  midi: { entry: 'plugins/midi/index.ts', config: () => ({ settleMs: 5 }) },
+  consensus: { entry: 'plugins/consensus/index.ts', config: () => ({}) },
 }
 
 export interface Harness {

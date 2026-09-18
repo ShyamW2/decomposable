@@ -16,10 +16,25 @@ Design lives in [`docs/`](docs/README.md). Start with
 
 ## Status
 
-Phases 0 and 1 of [the roadmap](docs/05-roadmap.md) are implemented: the kernel
-hot-swaps, and a song can be ingested, separated into stems and listened to in
-the browser with mute and solo, with the separator swapped underneath without a
-restart.
+Phases 0 to 3 of [the roadmap](docs/05-roadmap.md) are implemented.
+
+- The kernel hot-swaps: any capability can be replaced while the app runs.
+- A song can be ingested, separated into stems, and listened to with mute and
+  solo, with the separator swapped underneath without a restart.
+- **Play a chord on a MIDI keyboard and the page names it, classifies the
+  voicing, and says why — in about 30 ms.** Drop 2, rootless A and B, shell, So
+  What, quartal, upper-structure triads, polychords. When two labels fit equally
+  well it shows both, because ambiguity is information.
+- A record goes through beat tracking, transcription, the same harmony engine,
+  an independent chord recogniser that works from the spectrum instead, and a
+  consensus pass that marks every window where the two disagreed.
+
+Two things in Phase 3 are honestly unfinished. The exit criterion asks for a
+real solo-piano and a real piano-trio recording, and the only audio here is
+synthesised, so the pipeline has never met a record. And
+`transcriber-muscriptor` has never run at all: its weights are behind a
+HuggingFace licence somebody has to accept (**O-10** in
+[the ADR log](docs/06-decisions.md)).
 
 ## Requirements
 
@@ -40,7 +55,11 @@ pnpm start            # http://127.0.0.1:5883
 
 Drop in an MP3, press Separate, and listen to the stems. The first separation
 downloads the Demucs weights (~80 MB) and, on a laptop CPU, takes a couple of
-times the length of the song.
+times the length of the song. Then press Analyse for the chord track.
+
+Plug in a MIDI keyboard and play something: the panel on the left names it as
+you play. That needs Web MIDI, which Chrome and Edge have and Safari and Firefox
+do not; everything else in the page works anywhere.
 
 ## Seeing the point of it
 
@@ -66,29 +85,49 @@ never goes down with it. Or do it by hand: with the app running, pick the other
 separator from the menu in the page header, or change the name in
 `decomposable.config.yaml`.
 
+```sh
+node scripts/demo-phase2.ts
+```
+
+Eight voicings are pushed down the same websocket the browser's Web MIDI handler
+uses — one key at a time, with human gaps between them, because a hand does not
+land on five keys at once. Each one comes back named, classified and explained,
+and the script checks the latency against the 50 ms budget.
+
+```sh
+node scripts/demo-phase3.ts [--separate]
+```
+
+A recording goes in and a chord track comes out: beats, transcription, chords
+from the spectrum, chords from the notes, and a merge that prints `?` against
+every window where the two routes disagreed.
+
 ## Layout
 
 | Path | What is in it |
 |------|---------------|
 | `kernel/src` | Bootstrap, loader, `analysis-store`, `worker-supervisor`. |
+| `harmony/` | The harmony engine: pure TypeScript, no I/O, no clock. Chord naming and voicing classification. |
 | `kernel/conformance` | The contract suite every plugin must pass. |
 | `plugins/<name>` | One plugin each: manifest, `index.ts`, contract test, README. |
 | `workers/shim` | The Python side of the worker protocol, shared by every worker. |
 | `ui` | The Svelte app, built into `ui/dist` and served by the `ui` plugin. |
-| `fixtures` | Synthesised audio. Nothing we do not own is committed. |
+| `fixtures/audio` | Synthesised audio. Nothing we do not own is committed. |
+| `fixtures/harmony` | 230 hand-written pitch-set cases: notes in, expected label and voicing out. |
 | `workspaces` | One folder per song: decoded audio, stems, and its own SQLite file. Gitignored. |
 
 ## Tests
 
 ```sh
-pnpm test         # vitest: kernel, plugin contracts, golden tests. ~20 s.
-pnpm test:slow    # the above plus separator-bsroformer's contract. ~5 min.
+pnpm test         # vitest: kernel, harmony, plugin contracts, golden tests. ~90 s.
+pnpm test:slow    # the above plus separator-bsroformer's contract. ~6 min.
 pnpm typecheck
 ```
 
 `separator-bsroformer` is behind the slow flag because RoFormer needs about
-eighty seconds just to read its checkpoint on a CPU; it is still the contract and
-it still has to pass.
+eighty seconds just to read its checkpoint on a CPU. `transcriber-muscriptor` is
+behind it *and* behind `HF_TOKEN`, because its weights are gated. Both are still
+the contract and both still have to pass.
 
 Every plugin has a `contract.test.ts` that runs the shared conformance suite: it
 mounts and unmounts three times and fails on a leaked process, socket or timer;
@@ -98,6 +137,13 @@ rather than the process. A plugin without one does not merge.
 
 The separator's golden test asserts that the stems sum back to the mix, which is
 the property that distinguishes a separator from a noise generator.
+
+The harmony engine has its own suite: 230 pitch-set fixtures in
+`fixtures/harmony/pitch-sets.json`, each one a set of notes and the label and
+voicing it should come back as, including every classic ambiguity the design
+names — C6 against Am7, a rootless Cmaj9 against Em7, C7#9 against Eb/C, a
+half-diminished against a minor sixth, and the tritone that belongs to two
+dominants at once. A new hard case is a line of JSON.
 
 ## Licence
 

@@ -25,6 +25,46 @@ plugins:
     device: auto
     profile: auto
 
+  # --- Phase 2: the harmony engine and the live keyboard ------------------
+  # Pure TypeScript, no worker, nothing to download. `harmony` answers the
+  # keyboard in well under a millisecond and runs the same code over a record.
+  harmony:
+    top: 4
+    ambiguityMargin: 0.05
+    # Half a bar in 4/4. The plugin's own default is one beat, which is the
+    # finest honest resolution; over a real transcription that flickers, because
+    # a passing note gets a whole window to itself. Two is the setting that made
+    # `node scripts/demo-phase3.ts` read like a chart. Lower it for a ballad.
+    beatsPerWindow: 2
+
+  midi:
+    # How long the held notes must stop changing before they are read as a
+    # chord. Most of the 50 ms live budget is spent here on purpose.
+    settleMs: 30
+
+  # --- Phase 3: hearing the record ----------------------------------------
+  # lite = librosa (no weights, no bar lines); full = Beat This! (downloads).
+  beat-tracker:
+    device: auto
+    profile: auto
+
+  # One transcriber at a time; they both provide `transcriber`. Swap them here
+  # or from the header of the web page, exactly like the separators.
+  # transcriber-muscriptor is the other one, and its weights are gated (O-10).
+  transcriber-basicpitch:
+    device: auto
+    profile: auto
+
+  # The second opinion: chords from the spectrum rather than from notes.
+  chord-audio:
+    device: auto
+    profile: auto
+
+  # Merges every chord track and marks where they disagreed. With no weights
+  # configured each producer is weighted by its own confidence (see its README).
+  consensus:
+    agreementFloor: 0.7
+
   ui:
     port: 5883
 

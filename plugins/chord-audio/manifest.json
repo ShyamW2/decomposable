@@ -1,0 +1,17 @@
+{
+  "name": "chord-audio",
+  "version": "1.0.0",
+  "kind": "py-worker",
+  "description": "Chord recognition from the spectrum rather than from transcribed notes: CQT chroma, chord templates, Viterbi. The second opinion consensus compares against.",
+  "inject": ["worker-supervisor", "analysis-store", "ingest"],
+  "provides": ["chord-audio"],
+  "worker": {
+    "dir": "plugins/chord-audio/worker",
+    "devices": ["cpu"],
+    "warmupBudget": 120,
+    "models": {
+      "lite": { "id": "chroma-cqt", "peakMemoryMiB": 800 },
+      "full": { "id": "chroma-cens-hpss", "peakMemoryMiB": 1600 }
+    }
+  }
+}

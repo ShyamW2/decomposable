@@ -6,7 +6,7 @@
 import type { AnalysisStore } from './analysis-store/store.ts'
 import type { WorkerSupervisor } from './worker-supervisor/supervisor.ts'
 import type { AnalysisEvent } from './types.ts'
-import type { Separator } from './services.ts'
+import type { Separator, Transcriber } from './services.ts'
 
 declare module 'cordis' {
   interface Context {
@@ -18,6 +18,11 @@ declare module 'cordis' {
      * decomposable.config.yaml.
      */
     separator: Separator
+    /**
+     * Whichever transcriber is mounted. Basic Pitch is the CPU baseline and
+     * MuScriptor the full profile; as with `separator`, only one at a time.
+     */
+    transcriber: Transcriber
   }
 
   interface Events {

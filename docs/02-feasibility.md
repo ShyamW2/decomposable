@@ -167,3 +167,29 @@ automatic and makes the lite profile the conformance baseline.
 ## Log
 
 - 2026-09-18: first draft.
+- 2026-09-18: two of the libraries named above did not survive contact with an
+  installer. This section was optimistic about availability in a way that a
+  feasibility document specifically should not be.
+
+  - **madmom is unusable.** Not a version pin away: madmom 0.16.1's source
+    distribution needs a Cython and a setuptools from 2018, there are no wheels
+    for any Python this project supports, and its last release was 2018. It is
+    named above for drum transcription *and* for the audio chord recogniser
+    *and* for beat tracking. `chord-audio` uses chroma and templates instead
+    (ADR-009), `beat-tracker` uses librosa and Beat This!, and nobody needs drum
+    transcription for harmony.
+  - **MuScriptor's weights are gated.** The claim above that it has "open
+    weights" under CC BY 4.0 is what the paper says; what the distribution does
+    is put the checkpoints behind a HuggingFace licence an account has to accept
+    first. The Python package installs fine and the plugin is written, but it
+    has never run. See O-10 — and note that "open weights" and "downloadable
+    without an account" turned out to be different claims, which is worth
+    checking for any model this document names in future.
+  - **basic-pitch requires TensorFlow on Linux even for the ONNX path**, and
+    TensorFlow <2.15.1 has no CPython 3.12 wheels at all. Overridden away in the
+    worker's `pyproject.toml`; half a gigabyte of never-imported dependency is
+    not something the 8 GB baseline can carry.
+
+  What worked: the plugin contract absorbed all three without anything outside
+  the affected worker directory changing. That is the first time the kernel has
+  paid for itself rather than costing.

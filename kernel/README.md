@@ -9,7 +9,9 @@ suite that decides whether a plugin is allowed to exist.
 | `src/loader.ts` | Reads `decomposable.config.yaml` and reconciles the running tree against it. |
 | `src/analysis-store/` | The analysis document: append-only events with provenance, one SQLite file per song. |
 | `src/worker-supervisor/` | Python worker processes: device detection, slots, swap policies, runaway limits. |
-| `src/services.ts` | Contracts implemented by more than one plugin (currently `Separator`). |
+| `src/services.ts` | Contracts implemented by more than one plugin (`Separator`, `Transcriber`), and the payload shapes one plugin writes and another reads. |
+| `src/separator-service.ts` | The half of a separator plugin that is the same whichever model does the work. |
+| `src/transcriber-service.ts` | The same, for transcribers: which stems to point the model at, and writing the notes down with provenance. |
 | `src/contracts.ts` | The service and event names, declared once so `ctx['analysis-store']` is typed. |
 | `src/types.ts` | Events, layers, manifests, devices, profiles. |
 | `src/wav.ts` | Enough WAV reading for peak envelopes and golden tests. |

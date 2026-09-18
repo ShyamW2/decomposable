@@ -8,6 +8,12 @@
  * three-note voicing and a melody, each a different waveform and pan, so that a
  * separator has something to separate and the harmony engine will later have
  * something to name.
+ *
+ * `groove.wav` is the same four bars with a drum part under them. It exists
+ * because a beat tracker needs beats: on `ii-v-i.wav` the only strong onsets are
+ * the chord changes, so librosa quite reasonably reports 30 bpm and puts a beat
+ * on each bar line. That is the fixture being wrong for the job, not the
+ * tracker, and the fix is material with a pulse in it.
  */
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
@@ -63,6 +69,73 @@ const melody: Voice = {
   harmonics: [1, 0.25],
   gain: 0.22,
   pan: 0.4,
+}
+
+/** One drum hit: filtered noise with a fast decay, plus a body tone for the kick. */
+interface Hit {
+  /** Beat it lands on. */
+  beat: number
+  /** Seconds. */
+  decay: number
+  /** Hz. 0 for an unpitched hit. */
+  body: number
+  /** How much of the sound is noise rather than body. */
+  noise: number
+  gain: number
+}
+
+/** Kick on 1 and 3, snare on 2 and 4, hats on every eighth. */
+function groove(bars: number): Hit[] {
+  const hits: Hit[] = []
+  for (let bar = 0; bar < bars; bar++) {
+    const first = bar * 4
+    hits.push({ beat: first, decay: 0.18, body: 55, noise: 0.15, gain: 0.85 })
+    hits.push({ beat: first + 2, decay: 0.18, body: 55, noise: 0.15, gain: 0.7 })
+    hits.push({ beat: first + 1, decay: 0.12, body: 190, noise: 0.85, gain: 0.6 })
+    hits.push({ beat: first + 3, decay: 0.12, body: 190, noise: 0.85, gain: 0.6 })
+    for (let eighth = 0; eighth < 8; eighth++) {
+      hits.push({ beat: first + eighth / 2, decay: 0.035, body: 0, noise: 1, gain: eighth % 2 ? 0.14 : 0.22 })
+    }
+  }
+  return hits
+}
+
+function renderDrums(hits: Hit[], length: number): Float32Array[] {
+  const left = new Float32Array(length)
+  const right = new Float32Array(length)
+  // A fixed seed, because a fixture that is different every time it is
+  // regenerated is not a fixture.
+  let seed = 0x9e3779b9
+  const noise = () => {
+    seed = (seed * 1664525 + 1013904223) >>> 0
+    return (seed / 0x7fffffff) - 1
+  }
+  for (const hit of hits) {
+    const start = Math.round(hit.beat * BEAT * SAMPLE_RATE)
+    const duration = Math.round(hit.decay * SAMPLE_RATE)
+    for (let i = 0; i < duration && start + i < length; i++) {
+      const t = i / SAMPLE_RATE
+      const envelope = Math.exp(-t / (hit.decay / 4))
+      // The kick's pitch drops as it decays, which is what makes it a kick.
+      const body = hit.body ? Math.sin(2 * Math.PI * hit.body * t * Math.exp(-t * 6)) : 0
+      const value = (hit.noise * noise() + (1 - hit.noise) * body) * envelope * hit.gain * 0.5
+      left[start + i]! += value
+      right[start + i]! += value
+    }
+  }
+  return [left, right]
+}
+
+function mix(...signals: Float32Array[][]): Float32Array[] {
+  const frames = Math.max(...signals.map((signal) => signal[0]!.length))
+  return [0, 1].map((channel) => {
+    const out = new Float32Array(frames)
+    for (const signal of signals) {
+      const source = signal[channel]!
+      for (let i = 0; i < source.length; i++) out[i]! += source[i]!
+    }
+    return out
+  })
 }
 
 function render(voices: Voice[], beats: number): Float32Array[] {
@@ -126,5 +199,9 @@ function wav16(channels: Float32Array[], sampleRate: number): Buffer {
 
 const out = join(ROOT, 'fixtures', 'audio')
 mkdirSync(out, { recursive: true })
-writeFileSync(join(out, 'ii-v-i.wav'), wav16(render([bass, chords, melody], 16), SAMPLE_RATE))
+const tonal = render([bass, chords, melody], 16)
+writeFileSync(join(out, 'ii-v-i.wav'), wav16(tonal, SAMPLE_RATE))
 console.log(`wrote ${join(out, 'ii-v-i.wav')} (${(16 * BEAT).toFixed(1)}s, Dm7 G7 Cmaj7 at ${BPM} bpm)`)
+
+writeFileSync(join(out, 'groove.wav'), wav16(mix(tonal, renderDrums(groove(4), tonal[0]!.length)), SAMPLE_RATE))
+console.log(`wrote ${join(out, 'groove.wav')} (the same four bars, with a pulse to track)`)

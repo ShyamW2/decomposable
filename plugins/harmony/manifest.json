@@ -1,0 +1,8 @@
+{
+  "name": "harmony",
+  "version": "1.0.0",
+  "kind": "ts",
+  "description": "Names chords and classifies voicings. Pure TypeScript; answers a live keyboard in well under a millisecond and runs the same code over a transcribed record.",
+  "inject": ["analysis-store"],
+  "provides": ["harmony"]
+}

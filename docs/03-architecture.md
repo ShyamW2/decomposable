@@ -1,6 +1,6 @@
 # 03 — Architecture
 
-Status: ADR-001, 003, 004, 005, 007 accepted; ADR-002, 006, 008 proposed. Build only
+Status: ADR-001, 003, 004, 005, 007 accepted; ADR-002, 006, 008, 009, 010 proposed. Build only
 what the current roadmap phase needs (ADR-007); sections marked *later* are direction, not scope.
 
 ## Shape in one picture
@@ -14,7 +14,7 @@ what the current roadmap phase needs (ADR-007); sections marked *later* are dire
  │  plugin branches (each an isolated child context, torn down as a unit)                      │
  │   ┌─────────────┐ ┌────────────────┐ ┌──────────────┐ ┌──────────────┐ ┌────────────────┐   │
  │   │ ingest      │ │ separator      │ │ transcriber  │ │ beat-tracker │ │ chord-audio    │   │
- │   │ (ffmpeg)    │ │ (htdemucs_ft)  │ │ (muscriptor) │ │ (beat-this)  │ │ (madmom)       │   │
+ │   │ (ffmpeg)    │ │ (htdemucs_ft)  │ │ (basic pitch)│ │ (beat-this)  │ │ (chroma+HMM)   │   │
  │   └─────────────┘ └──────┬─────────┘ └──────┬───────┘ └──────┬───────┘ └──────┬─────────┘   │
  │                          │ owns              │ owns          │ owns           │ owns        │
  │   ┌─────────────┐ ┌──────▼─────────┐ ┌──────▼───────┐ ┌──────▼───────┐ ┌──────▼─────────┐   │
@@ -214,3 +214,21 @@ decomposable/
 ## Log
 
 - 2026-09-18: first draft. Cordis identified as the actual kernel rather than a metaphor.
+- 2026-09-18: phases 2 and 3 built. Three corrections to this document.
+
+  - **`ui` now holds seven optional services, not one.** Cordis v4 has no
+    optional injection, so the child-fiber trick from Phase 1 became
+    `plugins/ui/optional.ts`. One fiber per service, deliberately: unloading the
+    separator must not also take the chord track away.
+  - **The pipeline diagram's arrows are not all event subscriptions.** This
+    document says "each arrow is an event subscription on the analysis store,
+    not a function call". In practice the stages are driven by one route —
+    `POST /api/songs/:id/analyse` — that runs whatever is mounted, in order,
+    with a shared progress bar. The store *is* the interface between stages (no
+    stage calls another; each reads the layer below it), so re-running one stage
+    alone works exactly as described. What does not exist is the subscription
+    machinery, and ADR-007 says not to build it until something needs it.
+  - **`chord-audio` and `harmony` both write to the `chord` layer.** The diagram
+    implies one producer per layer. Two producers per layer, distinguished by
+    provenance, is what makes `consensus` possible at all, and the store already
+    supported it — `query({ producer })` was there from Phase 0.

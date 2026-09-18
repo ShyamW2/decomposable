@@ -89,7 +89,14 @@ export class WorkerSlot {
     if (this.state === 'released') return Promise.reject(new Error(`worker slot "${this.name}" was released`))
     // A worker killed for running away (memory or time) leaves the slot failed.
     // The next job is a fresh reason to try again; nothing retries on its own.
-    if (this.state === 'failed') {
+    //
+    // A process that died while the slot was *idle* leaves no such mark, because
+    // `state` only becomes 'failed' in `pump`'s error handler and there was no
+    // job in flight to fail. Without the second half of this check `pump` would
+    // refuse to dispatch to a dead process and the job would wait in the queue
+    // for a worker that is never coming back.
+    const diedWhileIdle = this.state === 'ready' && !this.current?.alive
+    if (this.state === 'failed' || diedWhileIdle) {
       this.state = 'starting'
       this.starting = null
       this.start().catch(() => {})

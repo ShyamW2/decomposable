@@ -2,8 +2,10 @@
   "name": "ui",
   "version": "1.0.0",
   "kind": "ts",
-  "description": "Serves the browser app: upload a song, see its waveform, play the stems with mute and solo, and swap the separator.",
-  "inject": ["analysis-store", "ingest"],
-  "injectOptional": ["separator"],
+  "description": "Serves the browser app: upload a song, see its waveform, play the stems, run the analysis pipeline, read the chord track, and play along on a MIDI keyboard.",
+  "inject": [
+    "analysis-store",
+    "ingest"
+  ],
   "provides": []
 }

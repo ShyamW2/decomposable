@@ -1,0 +1,26 @@
+[project]
+name = "decomposable-worker-transcriber-basicpitch"
+version = "0.1.0"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+  "decomposable-worker",
+  # The ONNX runtime rather than TensorFlow: it is the difference between a
+  # 200 MB venv and a 2 GB one, and this is the 8 GB laptop baseline (O-7).
+  "basic-pitch[onnx]>=0.4",
+  "soundfile>=0.12",
+  # resampy <0.4.3, which basic-pitch pins, still imports pkg_resources, and a
+  # Python 3.12 venv no longer ships setuptools by default.
+  # Pinned under 81, where pkg_resources was removed.
+  "setuptools<81",
+]
+
+[tool.uv.sources]
+decomposable-worker = { path = "../../../workers/shim", editable = true }
+
+[tool.uv]
+# basic-pitch 0.4.0 requires TensorFlow unconditionally on Linux, even though the
+# ONNX runtime is what actually loads the model here. TensorFlow <2.15.1 has no
+# wheels for CPython 3.12 at all, and half a gigabyte of it would be installed
+# and never imported. Overriding it away is the difference between a venv this
+# laptop baseline can carry and one it cannot (O-7).
+override-dependencies = ["tensorflow; sys_platform == 'never'", "tensorflow-macos; sys_platform == 'never'"]

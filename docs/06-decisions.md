@@ -148,6 +148,58 @@ is a separate design (probably the browser-only lite mode from ADR-005) because
 processing other people's copyrighted audio server-side has legal weight we do
 not want yet.
 
+## ADR-009 — The audio chord recogniser is chroma and templates, not madmom
+
+Status: proposed · 2026-09-18
+
+Context: the roadmap (Phase 3) names madmom's CNN chord recogniser as the second
+opinion that `consensus` compares the symbolic chord track against. madmom
+0.16.1 no longer builds. Its source distribution needs a Cython and a setuptools
+from 2018, there are no wheels for any Python this project supports, and the
+project's last release was 2018. It is not a version pin away from working.
+
+Decision: `chord-audio` implements the classical method madmom's CNN would have
+been benchmarked against — constant-Q chroma, a second chroma over C1–C3 for the
+bass, cosine similarity against seven chord templates on twelve roots, and a
+Viterbi pass whose only prior is that a chord lasts longer than a frame. Its
+vocabulary is deliberately small: triads, sixths and sevenths, no extensions.
+
+Consequences: the second opinion is weaker than a trained model would be, and it
+is honest about that in its README. What it is *not* is dependent: no weights, no
+GPU, no network, several times real time on a laptop, and it runs on the `lite`
+profile unchanged. That matters more than accuracy here, because the point of
+this worker is to be a *different* route to the same question, not a better one:
+`consensus` needs two independent opinions to have anything to mark. Its tone
+weights deliberately match the harmony engine's, so a disagreement between the
+two producers is about the evidence rather than about two different ideas of
+what a chord is.
+
+If a maintained neural chord recogniser appears, it is a new plugin providing
+the same contract and a line in `decomposable.config.yaml` — which is the whole
+argument for the plugin kernel, and the first time it has actually paid.
+
+## ADR-010 — The chord vocabulary is a core table plus found tensions
+
+Status: proposed · 2026-09-18
+
+Context: `04-harmony-engine.md` left open whether the vocabulary should be a
+closed table or generated from interval formulas, and recommended generated with
+a curated allow-list of symbols for display.
+
+Decision: the table holds only *core* qualities — a triad, a sixth or a seventh —
+eighteen of them, each with the tensions it can carry. Cmaj9, Cmaj13 and
+Cmaj7(#11) are not entries in it; they are `maj7` with whichever tensions the
+notes actually contain. Spelling is curated separately in `symbolFor`, because
+the symbol a musician expects is a convention and not a derivation.
+
+Consequences: the table is eighteen rows instead of several hundred, and the
+`extensions` and `alterations` fields of a candidate are *found* rather than
+declared, which is what makes them worth reporting. Scoring never changes when
+the house style for printing a chord changes. The cost is that a quality whose
+identity really is its extension needs its own row anyway — `dom7sus4` is one,
+because a natural 11 over a major 3rd is a suspension and not a tension — and
+noticing which those are is judgement rather than mechanism.
+
 ---
 
 ## Owner answers (2026-09-18)
@@ -177,3 +229,13 @@ not want yet.
 
 - **O-9** Which Mac is available for verifying workers, and whether a Mac should run
   the test suite regularly (a GitHub Actions macOS runner once the repo is on GitHub).
+  Now blocking six "verified on a Mac" boxes: two separators, the beat tracker,
+  both transcribers and the audio chord recogniser.
+- **O-10** **MuScriptor's weights are gated.** `transcriber-muscriptor` is written,
+  typechecked and its venv resolves, but the checkpoints live behind a HuggingFace
+  licence that an account has to accept before they can be downloaded, so the plugin
+  has never run. Its contract test is skipped unless `HF_TOKEN` is set. The owner
+  needs to decide whether to accept that licence on a HuggingFace account, and — for
+  ADR-008 — whether the checkpoint licence permits anything a future release would
+  want to do. Until then `transcriber-basicpitch` is the only transcriber that works,
+  and the `full` transcription profile does not exist.

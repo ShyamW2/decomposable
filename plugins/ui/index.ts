@@ -2,7 +2,9 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import type { Context } from 'cordis'
 import { WebSocketServer, type WebSocket } from 'ws'
-import type { Separator, StemRef } from '#kernel/services.ts'
+import type { ChordPayload, Separator, StemRef, VoicingPayload } from '#kernel/services.ts'
+import { optional } from './optional.ts'
+import type { ConsensusPayload } from '../consensus/index.ts'
 import {
   createHttpServer,
   json,
@@ -31,12 +33,14 @@ export const inject = ['analysis-store', 'ingest']
 /**
  * The browser app and the small HTTP/websocket server behind it.
  *
- * The separator is deliberately *not* injected. If it were, unloading
- * `separator-htdemucs` would take the web server down with it, and the one
- * moment a musician most wants a working page is the moment they asked to swap
- * the separator. Instead it is held in a child fiber: Cordis suspends that
- * fiber while no separator is mounted, the page stays up and says so, and the
- * fiber resumes on its own when the replacement arrives.
+ * Only `analysis-store` and `ingest` are injected. Every analysis capability —
+ * separator, transcriber, beats, harmony, chord-audio, consensus, midi — is
+ * held in a child fiber of its own instead (see `optional.ts`). If they were
+ * injected, unloading `separator-htdemucs` would take the web server down with
+ * it, and the one moment a musician most wants a working page is the moment
+ * they asked to swap the separator. As it is, Cordis suspends one fiber, the
+ * page stays up and says what is missing, and the fiber resumes by itself when
+ * a replacement arrives.
  */
 export function apply(ctx: Context, config: Config = {}) {
   const store = ctx['analysis-store']
@@ -55,24 +59,131 @@ export function apply(ctx: Context, config: Config = {}) {
     }
   }
 
-  // The separator comes and goes; the server does not.
-  let separator: Separator | null = null
-  ctx.inject(['separator'], (inner) => {
-    separator = inner.separator
-    logger.info('separator available: %s', separator.implementation)
-    broadcast({ type: 'state' })
-    inner.effect(() => () => {
-      separator = null
-      broadcast({ type: 'state' })
-    }, 'ui:separator-binding')
-  })
+  // Every analysis capability comes and goes; the server does not. See
+  // `optional.ts` for why each one gets a fiber of its own.
+  const announce = () => broadcast({ type: 'state' })
+  const separators = optional(ctx, 'separator', announce)
+  const transcribers = optional(ctx, 'transcriber', announce)
+  const beats = optional(ctx, 'beats', announce)
+  const harmony = optional(ctx, 'harmony', announce)
+  const chordAudio = optional(ctx, 'chord-audio', announce)
+  const consensus = optional(ctx, 'consensus', announce)
+  const midi = optional(ctx, 'midi', announce)
+
+  // A reading is small and frequent; it goes straight out rather than asking
+  // the page to come back and fetch the state again.
+  ctx.on('midi/reading', (reading) => broadcast({ type: 'reading', reading }))
+
+  const describe = (service: { implementation: string; version: string; info(): unknown } | null) =>
+    service ? { implementation: service.implementation, version: service.version, info: service.info() } : null
 
   const separatorState = () => ({
-    implementation: separator?.implementation ?? null,
-    version: separator?.version ?? null,
-    info: separator?.info() ?? null,
-    available: availableSeparators(root),
+    ...(describe(separators.value as Separator | null) ?? { implementation: null, version: null, info: null }),
+    available: implementationsOf(root, 'separator'),
   })
+
+  const pipelineState = () => ({
+    separator: separatorState(),
+    transcriber: {
+      ...(describe(transcribers.value) ?? { implementation: null, version: null, info: null }),
+      available: implementationsOf(root, 'transcriber'),
+    },
+    beats: describe(beats.value),
+    chordAudio: describe(chordAudio.value),
+    harmony: harmony.available,
+    consensus: consensus.available,
+    midi: midi.available ? { attachedTo: midi.value!.attachedTo } : null,
+  })
+
+  /**
+   * The whole pipeline, in the one order that makes sense, skipping whatever is
+   * not mounted. Each stage reports into the same progress bar, weighted by
+   * roughly how long it takes rather than evenly, because a bar that sits at
+   * 20% for four minutes and then finishes in a second is a worse lie than no
+   * bar at all.
+   */
+  type Stage = { name: string; weight: number; run: (report: (f: number, m?: string) => void) => Promise<unknown> }
+
+  async function analyse(songId: string, force: boolean) {
+    const stages: Stage[] = []
+    if (beats.value) {
+      stages.push({ name: 'beats', weight: 1, run: (report) => beats.value!.track(songId, { force, onProgress: report }) })
+    }
+    if (transcribers.value) {
+      stages.push({
+        name: 'transcribe',
+        weight: 6,
+        run: (report) => transcribers.value!.transcribe(songId, { force, onProgress: report }),
+      })
+    }
+    if (chordAudio.value) {
+      stages.push({ name: 'chord-audio', weight: 2, run: (report) => chordAudio.value!.recognise(songId, { force, onProgress: report }) })
+    }
+    if (harmony.value) {
+      stages.push({
+        name: 'harmony',
+        weight: 1,
+        run: async (report) => harmony.value!.analyzeSong(songId, { force, onProgress: report }),
+      })
+    }
+    if (consensus.value) {
+      stages.push({ name: 'consensus', weight: 1, run: async () => consensus.value!.merge(songId, { force }) })
+    }
+    if (stages.length === 0) throw new Error('nothing to analyse with: no beat tracker, transcriber or harmony engine is mounted')
+
+    const total = stages.reduce((sum, stage) => sum + stage.weight, 0)
+    let done = 0
+    const ran: string[] = []
+    for (const stage of stages) {
+      await stage.run((fraction, message) =>
+        broadcast({
+          type: 'analysis',
+          songId,
+          stage: stage.name,
+          fraction: (done + stage.weight * Math.min(1, Math.max(0, fraction))) / total,
+          message: message ?? stage.name,
+        }),
+      )
+      done += stage.weight
+      ran.push(stage.name)
+      broadcast({ type: 'analysis', songId, stage: stage.name, fraction: done / total, message: `${stage.name} done` })
+    }
+    broadcast({ type: 'analysis', songId, fraction: 1, message: 'done' })
+    broadcast({ type: 'state' })
+    return { stages: ran, chords: chordTrack(songId, null) }
+  }
+
+  /**
+   * One chord track, with each chord's voicing attached. Defaults to the
+   * consensus track when there is one, because that is the track that knows
+   * where the producers disagreed.
+   */
+  function chordTrack(songId: string, producer: string | null) {
+    const producers = [...new Set(store.query({ songId, layer: 'chord' }).map((event) => event.producer.plugin))].sort()
+    const chosen = producer ?? (producers.includes('consensus') ? 'consensus' : producers[0] ?? null)
+    if (!chosen) return { producer: null, producers, chords: [] }
+
+    const voicings = store.query({ songId, layer: 'voicing' })
+    const byInput = new Map<string, VoicingPayload>()
+    for (const event of voicings) {
+      for (const id of event.inputs) byInput.set(id, event.payload as VoicingPayload)
+    }
+
+    const chords = store.query({ songId, layer: 'chord', producer: chosen }).map((event) => {
+      const payload = event.payload as ChordPayload & Partial<ConsensusPayload>
+      return {
+        eventId: event.id,
+        startSec: event.tStart ?? 0,
+        endSec: event.tEnd ?? 0,
+        confidence: event.confidence ?? null,
+        ...payload,
+        // A consensus chord points at the chords it merged, and the voicing
+        // hangs off whichever of those the harmony engine produced.
+        voicing: byInput.get(event.id) ?? event.inputs.map((id) => byInput.get(id)).find(Boolean) ?? null,
+      }
+    })
+    return { producer: chosen, producers, chords }
+  }
 
   const songState = (songId: string) => {
     const song = store.getSong(songId)
@@ -97,6 +208,7 @@ export function apply(ctx: Context, config: Config = {}) {
       json(res, {
         songs: store.listSongs().map((song) => songState(song.songId)),
         separator: separatorState(),
+        pipeline: pipelineState(),
       })
       return true
     }
@@ -142,7 +254,23 @@ export function apply(ctx: Context, config: Config = {}) {
         return true
       }
 
+      if (action === '/chords' && req.method === 'GET') {
+        json(res, chordTrack(songId, url.searchParams.get('producer')))
+        return true
+      }
+
+      if (action === '/analyse' && req.method === 'POST') {
+        try {
+          json(res, await analyse(songId, url.searchParams.get('force') === 'true'))
+        } catch (error) {
+          broadcast({ type: 'analysis', songId, fraction: 1, error: (error as Error).message })
+          json(res, { error: (error as Error).message }, 500)
+        }
+        return true
+      }
+
       if (action === '/separate' && req.method === 'POST') {
+        const separator = separators.value
         if (!separator) {
           json(res, { error: 'no separator is mounted right now' }, 503)
           return true
@@ -168,19 +296,29 @@ export function apply(ctx: Context, config: Config = {}) {
       }
     }
 
-    // Switching separators is an edit to the config file, which the loader is
-    // already watching. The UI has no special path into the plugin tree.
-    if (path === '/api/separator' && req.method === 'POST') {
+    // Switching an implementation is an edit to the config file, which the
+    // loader is already watching. The UI has no special path into the plugin
+    // tree, and the same route serves separators and transcribers because
+    // swapping either one is exactly the same operation.
+    const swapMatch = path.match(/^\/api\/(separator|transcriber)$/)
+    if (swapMatch && req.method === 'POST') {
+      const service = swapMatch[1]!
       const body = JSON.parse((await readBodyText(req)) || '{}')
       const wanted = String(body.implementation ?? '')
-      const available = availableSeparators(root)
+      const available = implementationsOf(root, service)
       if (!available.includes(wanted)) {
-        json(res, { error: `unknown separator "${wanted}"`, available }, 400)
+        json(res, { error: `unknown ${service} "${wanted}"`, available }, 400)
         return true
       }
       swapPluginInConfig(configPath, { remove: available, add: wanted, config: { device: 'auto', profile: 'auto' } })
       logger.info('config now asks for %s', wanted)
       json(res, { requested: wanted })
+      return true
+    }
+
+    if (path === '/api/midi/panic' && req.method === 'POST') {
+      midi.value?.panic()
+      json(res, { held: midi.value?.held() ?? [] })
       return true
     }
 
@@ -205,6 +343,21 @@ export function apply(ctx: Context, config: Config = {}) {
   sockets.on('connection', (socket) => {
     clients.add(socket)
     socket.on('close', () => clients.delete(socket))
+    // The browser reaches the keyboard through Web MIDI and pushes note
+    // messages down this socket. Nothing else is accepted from a client: this
+    // is the only inbound direction the page has, and it stays that narrow.
+    socket.on('message', (raw) => {
+      let message: { type?: string; note?: unknown }
+      try {
+        message = JSON.parse(String(raw))
+      } catch {
+        return
+      }
+      if (message.type !== 'midi' || !midi.value) return
+      const note = message.note as { type: 'on' | 'off'; midi: number; velocity?: number }
+      if (typeof note?.midi !== 'number' || (note.type !== 'on' && note.type !== 'off')) return
+      midi.value.note(note)
+    })
     socket.send(JSON.stringify({ type: 'state' }))
   })
 
@@ -230,17 +383,21 @@ async function readBodyText(req: { [Symbol.asyncIterator](): AsyncIterator<any> 
   return Buffer.concat(chunks).toString('utf8')
 }
 
-/** Every plugin directory that implements the separator contract. */
-function availableSeparators(root: string): string[] {
+/**
+ * Every plugin directory that implements a given contract. Read off the
+ * manifests rather than a list kept here, so a plugin the agent bridge writes
+ * later appears in the dropdown without anybody editing this file.
+ */
+function implementationsOf(root: string, service: string): string[] {
   const dir = join(root, 'plugins')
   if (!existsSync(dir)) return []
   return readdirSync(dir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && entry.name.startsWith('separator-'))
+    .filter((entry) => entry.isDirectory())
     .filter((entry) => {
       const file = join(dir, entry.name, 'manifest.json')
       if (!existsSync(file)) return false
       const parsed = JSON.parse(readFileSync(file, 'utf8')) as { provides?: string[] }
-      return parsed.provides?.includes('separator') ?? false
+      return parsed.provides?.includes(service) ?? false
     })
     .map((entry) => entry.name)
     .sort()

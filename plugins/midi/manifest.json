@@ -1,0 +1,8 @@
+{
+  "name": "midi",
+  "version": "1.0.0",
+  "kind": "ts",
+  "description": "Turns a stream of MIDI note messages into a live chord and voicing reading, and optionally records it into a song's analysis document.",
+  "inject": ["analysis-store", "harmony"],
+  "provides": ["midi"]
+}

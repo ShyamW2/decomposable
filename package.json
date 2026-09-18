@@ -10,7 +10,9 @@
   "imports": {
     "#kernel/*": "./kernel/src/*",
     "#conformance": "./kernel/conformance/index.ts",
-    "#conformance/*": "./kernel/conformance/*"
+    "#conformance/*": "./kernel/conformance/*",
+    "#harmony": "./harmony/src/index.ts",
+    "#harmony/*": "./harmony/src/*"
   },
   "scripts": {
     "start": "node kernel/src/main.ts",

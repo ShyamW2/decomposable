@@ -17,6 +17,12 @@ export interface ContractOptions {
   dir: string
   /** Config the plugin is mounted with during the suite. */
   config?: Record<string, unknown>
+  /**
+   * Puts the layers the plugin reads into the store before `golden` runs. Its
+   * events are discarded, because they were not produced by the plugin under
+   * test and the provenance check would rightly object to them.
+   */
+  seed?: (harness: Harness) => Promise<void> | void
   /** Kind-specific checks, run with the plugin mounted. */
   golden?: (harness: Harness) => Promise<void> | void
 }
@@ -93,6 +99,8 @@ export function contractSuite(options: ContractOptions): void {
       const harness = await createHarness(options.dir)
       try {
         await harness.mount(config)
+        await options.seed?.(harness)
+        harness.events.length = 0
         await options.golden?.(harness)
         for (const event of harness.events) {
           expect(event.producer.plugin, 'event producer must be the plugin').toBe(manifest.name)

@@ -1,0 +1,17 @@
+{
+  "name": "transcriber-basicpitch",
+  "version": "1.0.0",
+  "kind": "py-worker",
+  "description": "Audio to notes with Spotify's Basic Pitch, via ONNX. The CPU baseline: no GPU, no TensorFlow, instrument-agnostic.",
+  "inject": ["worker-supervisor", "analysis-store", "ingest"],
+  "provides": ["transcriber"],
+  "worker": {
+    "dir": "plugins/transcriber-basicpitch/worker",
+    "devices": ["cpu"],
+    "warmupBudget": 180,
+    "models": {
+      "lite": { "id": "icassp-2022-lite", "peakMemoryMiB": 1100 },
+      "full": { "id": "icassp-2022-full", "peakMemoryMiB": 1400 }
+    }
+  }
+}

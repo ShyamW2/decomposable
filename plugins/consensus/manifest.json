@@ -1,0 +1,8 @@
+{
+  "name": "consensus",
+  "version": "1.0.0",
+  "kind": "ts",
+  "description": "Merges every chord track on a song into one, and records where they disagreed rather than hiding it.",
+  "inject": ["analysis-store"],
+  "provides": ["consensus"]
+}

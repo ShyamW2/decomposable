@@ -1,0 +1,17 @@
+{
+  "name": "transcriber-muscriptor",
+  "version": "1.0.0",
+  "kind": "py-worker",
+  "description": "Audio to notes with MuScriptor, a transformer over note events. Slower and larger than Basic Pitch, and it names the instrument it heard.",
+  "inject": ["worker-supervisor", "analysis-store", "ingest"],
+  "provides": ["transcriber"],
+  "worker": {
+    "dir": "plugins/transcriber-muscriptor/worker",
+    "devices": ["cpu", "cuda", "mps"],
+    "warmupBudget": 900,
+    "models": {
+      "lite": { "id": "small", "peakMemoryMiB": 2600 },
+      "full": { "id": "large", "peakMemoryMiB": 6200 }
+    }
+  }
+}
